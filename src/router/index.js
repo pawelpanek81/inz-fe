@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/map',
       name: 'Map',
-      component: Map
+      component: Map,
     },
   ],
 });

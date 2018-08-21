@@ -7,15 +7,13 @@
       v-model="drawer"
       enable-resize-watcher
       fixed
-      app
-    >
+      app>
       <v-list>
         <v-list-tile
           value="true"
           v-for="(item, i) in items"
           :key="i"
-          :to="item.route"
-        >
+          :to="item.route">
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>
@@ -35,8 +33,7 @@
     </v-navigation-drawer>
     <v-toolbar
       app
-      :clipped-left="clipped"
-    >
+      :clipped-left="clipped">
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
@@ -44,48 +41,49 @@
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
-        <v-btn icon
+        <v-btn style="box-shadow: none;"
           slot="activator">
-          <v-icon>notifications</v-icon>
+          5 powiadomień
+          <v-icon right>notifications</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile
-            v-for="(item, index) in items"
+            v-for="(notification, index) in notifications"
             :key="index"
             @click=""
           >
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-title>{{ notification.text }}</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
-      <v-btn icon>
-        <v-icon>account_circle</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <v-btn
+        icon
+        slot="activator">
+          <v-icon>account_circle</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title>Profil</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="logout">
+            <v-list-tile-title>Wyloguj</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <router-view/>
     </v-content>
-    <v-navigation-drawer
-      temporary
-      :right="right"
-      v-model="rightDrawer"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-tile @click="right = !right">
-          <v-list-tile-action>
-            <v-icon>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
-      <span>&copy; 2017</span>
+      <span class="ml-2">&copy; 2018 Paweł Panek</span>
+      <v-spacer></v-spacer>
+      wersja: v1.0
+      <v-spacer></v-spacer>
+      <v-btn small style="box-shadow: none;">
+        Zgłoś błąd
+        <v-icon>bug_report</v-icon>
+      </v-btn>
     </v-footer>
   </v-app>
 </template>
@@ -94,74 +92,124 @@
 export default {
   data() {
     return {
+      title: 'Vuetify.js',
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [{
-        icon: 'bubble_chart',
-        title: 'Profil',
-        route: '/profile',
-      }, {
-        icon: 'directions_car',
-        type: 'combobox',
-      }, {
-        icon: 'show_chart',
-        title: 'Kokpit',
-        route: '/dashboard',
-      }, {
-        icon: 'opacity',
-        title: 'Tankowanie',
-        route: '/fuel',
-      }, {
-        icon: 'map',
-        title: 'Mapa',
-        route: '/map',
-      }, {
-        icon: 'build',
-        title: 'Serwis',
-        route: '/service',
-      }, {
-        icon: 'description',
-        title: 'Raport',
-        route: '/report',
-      }, {
-        icon: 'calendar_today',
-        title: 'Kalendarz',
-        route: '/calendar',
-      }, {
-        icon: 'notifications',
-        title: 'Powiadomienia',
-        route: '/notifications',
-      }, {
-        icon: 'settings',
-        title: 'Ustawienia',
-        route: '/settings',
-      }, {
-        icon: 'lock_open',
-        title: 'Zaloguj',
-        route: '/login',
-      }, {
-        icon: 'fiber_new',
-        title: 'Rejestracja',
-        route: '/register',
-      }],
+      items: [
+        {
+          icon: 'bubble_chart',
+          title: 'Profil',
+          route: '/profile',
+        },
+        {
+          icon: 'directions_car',
+          type: 'combobox',
+        },
+        // {
+        //   icon: 'insert_chart_outlined',
+        //   title: 'Kokpit',
+        //   route: '/dashboard',
+        // },
+        // {
+        //   icon: 'opacity',
+        //   title: 'Tankowanie',
+        //   route: '/fuel',
+        // },
+        {
+          icon: 'map',
+          title: 'Mapa',
+          route: '/map',
+        },
+        {
+          icon: 'build',
+          title: 'Książka serwisowa',
+          route: '/service',
+        },
+        // {
+        //   icon: 'attach_money',
+        //   title: 'Inne wydatki',
+        //   route: '/expense',
+        // },
+        // {
+        //   icon: 'description',
+        //   title: 'Raport',
+        //   route: '/report',
+        // },
+        // {
+        //   icon: 'calendar_today',
+        //   title: 'Kalendarz',
+        //   route: '/calendar',
+        // },
+        {
+          icon: 'settings_input_hdmi',
+          title: 'Przegląd rejestracyjny',
+          route: '/inspection',
+        },
+        {
+          icon: 'verified_user',
+          title: 'Ubezpieczenie',
+          route: '/insurance',
+        },
+        {
+          icon: 'notifications',
+          title: 'Powiadomienia',
+          route: '/notifications',
+        },
+        // {
+        //   icon: 'settings',
+        //   title: 'Ustawienia',
+        //   route: '/settings',
+        // },
+        {
+          icon: 'lock_open',
+          title: 'Zaloguj',
+          route: '/login',
+        },
+        {
+          icon: 'fiber_new',
+          title: 'Rejestracja',
+          route: '/register',
+        },
+      ],
       selectedCar: null,
-      cars: [{
-        text: 'Mercedes',
-      }, {
-        text: 'Dodaj nowe',
-      }],
+      cars: [
+        {
+          text: 'Mercedes 190E',
+        },
+        {
+          text: 'Dodaj nowe',
+        },
+      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      notifications: [
+        {
+          text: 'Powiadomienie 1',
+        },
+        {
+          text: 'Powiadomienie 2',
+        },
+        {
+          text: 'Powiadomienie 3',
+        },
+        {
+          text: 'Powiadomienie 4',
+        },
+        {
+          text: 'Powiadomienie 5',
+        },
+      ],
     };
   },
   methods: {
     carSelectedChange() {
-      console.log(this.selectedCar.text);
+      // console.log(this.selectedCar.text);
     },
-
+    logout() {
+      // alert('13');
+    },
   },
   name: 'App',
 };
