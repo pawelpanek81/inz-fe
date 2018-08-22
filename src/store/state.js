@@ -1,3 +1,7 @@
 export default {
-    toolbarTitle: 'szsz',
-}
+  toolbarTitle: 'Vuetify.js',
+  clipped: false,
+  drawer: true,
+  miniVariant: false,
+  fixed: false,
+};
