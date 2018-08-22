@@ -1,21 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
-import Map from '@/pages/Map';
+import Navigation from './navigation';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
-    },
-    {
-      path: '/map',
-      name: 'Map',
-      component: Map,
-    },
+    Navigation.HELLOWORD,
+    Navigation.MAP,
+    Navigation.LOGIN,
   ],
 });

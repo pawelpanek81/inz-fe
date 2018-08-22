@@ -7,4 +7,7 @@ export default {
   setMiniVariant({ commit }, newValue) {
     commit(MT.SET_MINI_VARIANT, newValue);
   },
+  setToolbarTitle({ commit }, newValue) {
+    commit(MT.SET_TOOLBAR_TITLE, newValue);
+  },
 };

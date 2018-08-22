@@ -1,7 +1,7 @@
 export default {
   toolbarTitle: 'Vuetify.js',
   clipped: false,
-  drawer: true,
+  drawer: false,
   miniVariant: false,
   fixed: false,
 };

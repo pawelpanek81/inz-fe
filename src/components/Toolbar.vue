@@ -48,7 +48,6 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      title: 'Vuetify.js',
       notifications: [{
         text: 'Powiadomienie 1',
       }, {
@@ -80,6 +79,9 @@ export default {
       'drawer',
       'miniVariant',
     ]),
+    ...mapGetters({
+      title: 'toolbarTitle',
+    }),
   },
 };
 </script>
