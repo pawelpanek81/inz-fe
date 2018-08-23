@@ -6,7 +6,8 @@
       v-model="drawer"
       enable-resize-watcher
       fixed
-      app>
+      app
+      v-if="isUserLoggedIn">
       <v-list>
         <v-list-tile
           value="true"
@@ -130,24 +131,34 @@ export default {
   methods: {
     navigationItemChanged(item) {
       this.$store.dispatch('setToolbarTitle', item.title);
+
+      // if (item.title === 'Zaloguj') {
+      //   this.$store.dispatch('setDrawer', false);
+      //   this.$store.dispatch('setToolbarVisible', false);
+      // } else {
+      //   this.$store.dispatch('setDrawer', null);
+      //   this.$store.dispatch('setToolbarVisible', true);
+      // }
     },
     carSelectedChange() {
       // console.log(this.selectedCar.text);
     },
+
   },
   computed: {
     drawer: {
       get() {
         return this.$store.getters.drawer;
       },
-      set(newValue) {
-        this.$store.dispatch('setDrawer', newValue);
-      },
+      set() { },
     },
     ...mapGetters([
       'clipped',
       'miniVariant',
       'fixed',
+      'loginPageActive',
+      'registerPageActive',
+      'isUserLoggedIn',
     ]),
   },
 };

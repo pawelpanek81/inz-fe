@@ -1,5 +1,6 @@
 <template>
   <v-toolbar
+      v-if="isUserLoggedIn"
       app
       :clipped-left="clipped">
       <v-btn icon @click.stop="changeMiniVariant">
@@ -78,6 +79,7 @@ export default {
       'clipped',
       'drawer',
       'miniVariant',
+      'isUserLoggedIn',
     ]),
     ...mapGetters({
       title: 'toolbarTitle',
