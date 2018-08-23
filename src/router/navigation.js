@@ -1,6 +1,7 @@
 import HelloWorld from '@/components/HelloWorld';
 import Map from '@/pages/Map';
 import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 
 export default {
   HELLOWORD: {
@@ -25,6 +26,8 @@ export default {
     component: Login,
   },
   REGISTER: {
-
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
 };

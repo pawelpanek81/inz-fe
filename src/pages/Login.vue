@@ -23,7 +23,7 @@
           <v-card-actions>
             <v-layout column>
               <div><v-btn @click="forgotPassword" small flat color="secondary">Nie pamiętam hasła</v-btn></div>
-              <div><v-btn @click="register" small flat color="secondary">Zarejestruj się</v-btn></div>
+              <div><v-btn @click="register" to="register" small flat color="secondary">Zarejestruj się</v-btn></div>
             </v-layout>
             <v-spacer></v-spacer>
             <v-btn @click="validateForm" color="primary" class="mr-2">Login</v-btn>
@@ -50,7 +50,7 @@ export default {
     },
     register() {
       // eslint-disable-next-line
-      alert('jeszcze nie czas');
+      // alert('jeszcze nie czas');
     },
     forgotPassword() {
       // eslint-disable-next-line
@@ -59,7 +59,7 @@ export default {
     validateForm() {
       this.$validator.validateAll()
         .then((result) => {
-          if(result) {
+          if (result) {
             this.login(this.credential);
           }
         });
