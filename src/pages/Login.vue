@@ -11,11 +11,13 @@
               <v-text-field v-model="credential.username"
               v-validate="'required'"
               data-vv-name="login"
+              data-vv-as="login"
               :error-messages="errors.collect('login')"
               prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
               <v-text-field v-model="credential.password" 
               v-validate="'required'"
               data-vv-name="password"
+              data-vv-as="hasło"
               :error-messages="errors.collect('password')"
               id="password" prepend-icon="lock" name="password" label="Hasło" type="password"></v-text-field>
             </v-form>
@@ -23,7 +25,7 @@
           <v-card-actions>
             <v-layout column>
               <div><v-btn @click="forgotPassword" small flat color="secondary">Nie pamiętam hasła</v-btn></div>
-              <div><v-btn @click="register" to="register" small flat color="secondary">Zarejestruj się</v-btn></div>
+              <div><v-btn to="register" small flat color="secondary">Zarejestruj się</v-btn></div>
             </v-layout>
             <v-spacer></v-spacer>
             <v-btn @click="validateForm" color="primary" class="mr-2">Login</v-btn>
@@ -45,24 +47,20 @@ export default {
     };
   },
   methods: {
-    login(credential) {
-      alert('login');
+    validateForm() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.login(this.credential);
+        }
+      });
     },
-    register() {
+    login(credential) {
       // eslint-disable-next-line
-      // alert('jeszcze nie czas');
+      alert('login' + credential);
     },
     forgotPassword() {
       // eslint-disable-next-line
       alert('trudno ¯\\_(ツ)_/¯');
-    },
-    validateForm() {
-      this.$validator.validateAll()
-        .then((result) => {
-          if (result) {
-            this.login(this.credential);
-          }
-        });
     },
   },
 };

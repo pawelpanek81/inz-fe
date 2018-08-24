@@ -1,6 +1,6 @@
 export default {
   // toolbar
-  toolbarTitle: 'Vuetify.js',
+  toolbarTitle: 'Twoje auto',
 
   // navigation drawer
   clipped: false,
