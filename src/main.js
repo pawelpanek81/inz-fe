@@ -1,6 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import Vuetify from 'vuetify';
 import VeeValidate, { Validator } from 'vee-validate';
 import pl from 'vee-validate/dist/locale/pl';
@@ -19,6 +21,7 @@ Vue.use(Vuetify, {
 });
 Validator.localize('pl', pl);
 Vue.use(VeeValidate);
+Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 

@@ -4,6 +4,7 @@ import rootState from './state';
 import rootGetters from './getters';
 import rootMutations from './mutations';
 import rootActions from './actions';
+import userModule from './modules/user/index';
 
 Vue.use(Vuex);
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
   mutations: rootMutations,
   actions: rootActions,
   modules: {
+    userModule,
   },
 });

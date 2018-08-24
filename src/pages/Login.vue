@@ -57,6 +57,7 @@ export default {
     login(credential) {
       // eslint-disable-next-line
       alert('login' + credential);
+      this.$store.dispatch('login', credential);
     },
     forgotPassword() {
       // eslint-disable-next-line

@@ -7,8 +7,4 @@ export default {
   drawer: null,
   miniVariant: false,
   fixed: false,
-
-  // authentication and authorization
-  isUserLoggedIn: false,
-  jwtToken: null,
 };
