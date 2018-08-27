@@ -11,6 +11,7 @@ import colors from 'vuetify/es5/util/colors';
 import App from './App';
 import router from './router';
 import store from './store';
+import apiConfig from './api/config';
 
 Vue.use(Vuetify, {
   theme: {
@@ -24,6 +25,8 @@ Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
+
+axios.defaults.baseURL = apiConfig.BASE_URL;
 
 /* eslint-disable no-new */
 new Vue({

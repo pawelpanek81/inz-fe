@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import swal from 'sweetalert2';
 
 export default {
   data() {
@@ -71,7 +72,17 @@ export default {
       this.$store.dispatch('setDrawer', !this.drawer);
     },
     logout() {
-      // alert('13');
+      this.$store.dispatch('logout');
+      swal({
+        type: 'success',
+            title: 'Ok',
+            text: 'Zostałeś wylogowany',
+            timer: 3000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end',
+          });
+      this.$router.push({ path: '/login' });
     },
   },
   computed: {

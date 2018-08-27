@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height class="bg">
+  <v-container fluid fill-height class="bg" v-on:keyup.enter="validateForm">
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4 lg3 xl2>
         <v-card class="elevation-12 login-card">
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -55,9 +57,29 @@ export default {
       });
     },
     login(credential) {
-      // eslint-disable-next-line
-      alert('login' + credential);
-      this.$store.dispatch('login', credential);
+      this.$store.dispatch('login', credential)
+        .then(() => {
+          this.$router.push({ path: '/' });
+          // this.toast('success', 'Zostales zalogowany');
+          swal({
+            type: 'success',
+            title: 'Ok',
+            text: 'Zostałeś zalogowany',
+            timer: 3000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end',
+          });
+        })
+        .catch(() => {      
+          swal({
+            type: 'error',
+            title: 'Złe dane',
+            text: 'Podane dane są błędne',
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        });
     },
     forgotPassword() {
       // eslint-disable-next-line

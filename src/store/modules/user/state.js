@@ -1,4 +1,9 @@
 export default {
   isUserLoggedIn: false,
-  jwtToken: null,
-}
+  jwtData: {
+    rawToken: null,
+    sub: null,
+    authorities: [],
+    exp: null,
+  },
+};
