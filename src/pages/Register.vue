@@ -29,7 +29,7 @@
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
                   <v-text-field 
-                  v-model="formData.login"
+                  v-model="formData.username"
                   v-validate="'required|max:16'"
                   :counter="16"
                   data-vv-name="login"
@@ -62,7 +62,7 @@
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
                   <v-text-field 
-                  v-model="formData.repassword"
+                  v-model="repassword"
                   v-validate="'required|confirmed:password'"
                   data-vv-name="repassword"
                   data-vv-as="powtórz hasło"
@@ -83,7 +83,7 @@
                 </v-flex>
                 <v-flex xs12 sm12 class="py-0">
                   <v-checkbox type="checkbox" 
-                  v-model="formData.rulesChecked"
+                  v-model="rulesChecked"
                   v-validate="'required:true'"
                   data-vv-name="rules"
                   data-vv-as="regulamin"
@@ -124,17 +124,17 @@ export default {
     return {
       showPassword: false,
       showRepassword: false,
+      rulesChecked: null,
+      repassword: null,
       formData: {
         name: null,
         surname: null,
-        login: null,
+        username: null,
         email: null,
         password: null,
-        repassword: null,
         city: null,
-        rulesChecked: null,
       },
-    };
+  };
   },
   methods: {
     validateForm() {
@@ -144,9 +144,8 @@ export default {
         }
       });
     },
-    register(data) {
-      // eslint-disable-next-line
-      alert('registering...' + data);
+    register(formData) {
+      this.$store.dispatch('register', formData);
     },
     redirectIfUserLoggedIn() {
       if (this.isUserLoggedIn) {

@@ -38,4 +38,8 @@ export default {
     }
     return Promise.resolve();
   },
+  register({}, registrationData) {
+    return Vue.axios.post(endpoints.REGISTER, registrationData)
+      .catch(error => Promise.reject(error));
+  },
 };
