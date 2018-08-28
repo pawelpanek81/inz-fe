@@ -114,7 +114,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
+  created() {
+    this.redirectIfUserLoggedIn();
+  },
   data() {
     return {
       showPassword: false,
@@ -143,6 +148,16 @@ export default {
       // eslint-disable-next-line
       alert('registering...' + data);
     },
+    redirectIfUserLoggedIn() {
+      if (this.isUserLoggedIn) {
+        this.$router.push({ path: '/' });
+      }
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'isUserLoggedIn'
+    ])
   },
 };
 </script>

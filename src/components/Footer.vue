@@ -4,7 +4,7 @@
     <v-spacer></v-spacer>
     wersja: v1.0
     <v-spacer></v-spacer>
-    <v-btn small style="box-shadow: none;">
+    <v-btn @click="reportBug" small style="box-shadow: none;">
       Zgłoś błąd
       <v-icon>bug_report</v-icon>
     </v-btn>
@@ -13,8 +13,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import swal from 'sweetalert2';
 
 export default {
+  methods: {
+    reportBug() {
+      swal(
+        'Super!',
+        'Dziękuję za zgłoszenie!',
+        'success'
+      );
+    },
+  },
   computed: {
     ...mapGetters([
       'fixed',

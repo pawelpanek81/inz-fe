@@ -38,8 +38,12 @@
 
 <script>
 import swal from 'sweetalert2';
+import { mapGetters } from 'vuex';
 
 export default {
+  created() {
+    this.redirectIfUserLoggedIn();
+  },
   data() {
     return {
       credential: {
@@ -65,7 +69,7 @@ export default {
             type: 'success',
             title: 'Ok',
             text: 'Zostałeś zalogowany',
-            timer: 3000,
+            timer: 2000,
             showConfirmButton: false,
             toast: true,
             position: 'top-end',
@@ -77,7 +81,6 @@ export default {
             title: 'Złe dane',
             text: 'Podane dane są błędne',
             timer: 3000,
-            showConfirmButton: false,
           });
         });
     },
@@ -85,6 +88,16 @@ export default {
       // eslint-disable-next-line
       alert('trudno ¯\\_(ツ)_/¯');
     },
+    redirectIfUserLoggedIn() {
+      if (this.isUserLoggedIn) {
+        this.$router.push({ path: '/' });
+      }
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'isUserLoggedIn'
+    ])
   },
 };
 </script>

@@ -13,6 +13,7 @@
 import navigationDraver from '@/components/NavigationDraver';
 import toolbar from '@/components/Toolbar';
 import footer from '@/components/Footer';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -21,11 +22,29 @@ export default {
     appToolbar: toolbar,
     appFooter: footer,
   },
-  data() {
-    return {
-    };
+  watch: {
+    $route (to, form) {
+      this.redirectIfNotLogged(to.path);
+    }
   },
   methods: {
+    redirectIfNotLogged(nextRoute) {
+      if (!this.isUserLoggedIn && !(['/login', '/register'].includes(nextRoute))) {
+        this.$router.push({ path: '/login' });
+      }
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'isUserLoggedIn',
+    ])
+  },
+  created() {
+    this.$store.dispatch('restoreUserCredentialsIfLogged')
+      .then(() => {
+        const initRoute = this.$route.path;
+        this.redirectIfNotLogged(initRoute);
+      });
   },
 };
 </script>

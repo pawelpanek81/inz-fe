@@ -3,7 +3,7 @@
       v-if="isUserLoggedIn"
       app
       :clipped-left="clipped">
-      <v-btn icon @click.stop="changeMiniVariant">
+      <v-btn v-if="!isMobile" icon @click.stop="changeMiniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
       <v-toolbar-side-icon @click.stop="changeDrawer"></v-toolbar-side-icon>
@@ -11,9 +11,10 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <v-btn style="box-shadow: none;"
-          slot="activator">
-          5 powiadomień
-          <v-icon right>notifications</v-icon>
+          slot="activator"
+          :icon="isMobile">
+          <span v-if="!isMobile">5 powiadomień</span>
+          <v-icon :right="!isMobile">notifications</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile
@@ -77,7 +78,7 @@ export default {
         type: 'success',
             title: 'Ok',
             text: 'Zostałeś wylogowany',
-            timer: 3000,
+            timer: 2000,
             showConfirmButton: false,
             toast: true,
             position: 'top-end',
@@ -95,6 +96,9 @@ export default {
     ...mapGetters({
       title: 'toolbarTitle',
     }),
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
       persistent
-      :mini-variant="miniVariant"
+      :mini-variant="miniVariant && !this.isMobile"
       :clipped="clipped"
       v-model="drawer"
       enable-resize-watcher
@@ -106,16 +106,6 @@ export default {
         //   title: 'Ustawienia',
         //   route: '/settings',
         // },
-        {
-          icon: 'lock_open',
-          title: 'Zaloguj',
-          route: '/login',
-        },
-        {
-          icon: 'fiber_new',
-          title: 'Rejestracja',
-          route: '/register',
-        },
       ],
       cars: [
         {
@@ -150,8 +140,15 @@ export default {
       get() {
         return this.$store.getters.drawer;
       },
-      set() { },
+      set(val) {
+        if (val !== this.drawer) {
+          this.$store.dispatch('setDrawer', val);
+        }
+      },
     },
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },  
     ...mapGetters([
       'clipped',
       'miniVariant',

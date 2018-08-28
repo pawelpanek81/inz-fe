@@ -32,5 +32,12 @@ export default {
     commit(USER_MUTATION_TYPES.SET_JWT_SUB, null);
     commit(USER_MUTATION_TYPES.SET_JWT_AUTHORITIES, []);
     commit(USER_MUTATION_TYPES.SET_JWT_EXP, null);
-  }
+  },
+  restoreUserCredentialsIfLogged({ dispatch }) {
+    const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
+    if (token !== null) {
+      dispatch('authorizeWithToken', token);
+    }
+    return Promise.resolve();
+  },
 };
