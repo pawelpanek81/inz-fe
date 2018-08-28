@@ -148,7 +148,7 @@ export default {
     },
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
-    },  
+    },
     ...mapGetters([
       'clipped',
       'miniVariant',

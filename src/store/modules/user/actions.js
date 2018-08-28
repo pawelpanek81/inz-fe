@@ -8,14 +8,12 @@ const LOCALSTORAGE_TOKEN = 'token';
 export default {
   login({ dispatch }, credential) {
     return Vue.axios.post(endpoints.LOGIN, credential)
-    .then((response) => {
-      const rawToken = response.headers.authorization;
-      localStorage.setItem(LOCALSTORAGE_TOKEN, rawToken);
-      dispatch('authorizeWithToken', rawToken);
-    })
-    .catch((error) => {
-      return Promise.reject(error);
-    });
+      .then((response) => {
+        const rawToken = response.headers.authorization;
+        localStorage.setItem(LOCALSTORAGE_TOKEN, rawToken);
+        dispatch('authorizeWithToken', rawToken);
+      })
+      .catch(error => Promise.reject(error));
   },
   authorizeWithToken({ commit }, token) {
     commit(USER_MUTATION_TYPES.SET_JWT_TOKEN, token);

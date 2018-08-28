@@ -19,9 +19,9 @@ export default {
   methods: {
     reportBug() {
       swal(
-        'Super!',
-        'Dziękuję za zgłoszenie!',
-        'success'
+        'Ooo nie!',
+        'Ta aplikacja nie posiada błedów.',
+        'error',
       );
     },
   },

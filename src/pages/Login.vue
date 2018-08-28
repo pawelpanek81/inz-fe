@@ -75,7 +75,7 @@ export default {
             position: 'top-end',
           });
         })
-        .catch(() => {      
+        .catch(() => {
           swal({
             type: 'error',
             title: 'Złe dane',
@@ -96,8 +96,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isUserLoggedIn'
-    ])
+      'isUserLoggedIn',
+    ]),
   },
 };
 </script>

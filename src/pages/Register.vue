@@ -156,8 +156,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isUserLoggedIn'
-    ])
+      'isUserLoggedIn',
+    ]),
   },
 };
 </script>

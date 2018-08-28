@@ -76,13 +76,13 @@ export default {
       this.$store.dispatch('logout');
       swal({
         type: 'success',
-            title: 'Ok',
-            text: 'Zostałeś wylogowany',
-            timer: 2000,
-            showConfirmButton: false,
-            toast: true,
-            position: 'top-end',
-          });
+        title: 'Ok',
+        text: 'Zostałeś wylogowany',
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+      });
       this.$router.push({ path: '/login' });
     },
   },

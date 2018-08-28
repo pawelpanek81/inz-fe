@@ -23,9 +23,9 @@ export default {
     appFooter: footer,
   },
   watch: {
-    $route (to, form) {
+    $route(to) {
       this.redirectIfNotLogged(to.path);
-    }
+    },
   },
   methods: {
     redirectIfNotLogged(nextRoute) {
@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters([
       'isUserLoggedIn',
-    ])
+    ]),
   },
   created() {
     this.$store.dispatch('restoreUserCredentialsIfLogged')
@@ -48,3 +48,9 @@ export default {
   },
 };
 </script>
+
+<style>
+body {
+  font-family: Roboto,sans-serif;
+}
+</style>
