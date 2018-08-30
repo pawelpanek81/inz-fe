@@ -38,6 +38,7 @@ export default {
     }
     return Promise.resolve();
   },
+  // eslint-disable-next-line
   register({}, registrationData) {
     return Vue.axios.post(endpoints.REGISTER, registrationData)
       .catch(error => Promise.reject(error));

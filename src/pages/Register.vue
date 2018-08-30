@@ -13,7 +13,7 @@
                 <v-flex xs12 sm6 class="py-0">
                   <v-text-field 
                   v-model="formData.name"
-                  v-validate="'required|max:12'"
+                  v-validate="'required|min:3|max:12'"
                   :counter="12"
                   data-vv-name="name"
                   data-vv-as="imię"
@@ -23,14 +23,14 @@
                 <v-flex xs12 sm6 class="py-0">
                   <v-text-field 
                   v-model="formData.surname"
-                  v-validate="'max:32'"
+                  v-validate="'min:3|max:32'"
                   :counter="32"
                   name="surname" type="text" label="Nazwisko" prepend-icon="person"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
                   <v-text-field 
                   v-model="formData.username"
-                  v-validate="'required|max:16'"
+                  v-validate="'required|min:3|max:16'"
                   :counter="16"
                   data-vv-name="login"
                   data-vv-as="login"
@@ -50,7 +50,7 @@
                   <v-text-field 
                   id="password"
                   v-model="formData.password"
-                  v-validate="'required'"
+                  v-validate="'required|min:4'"
                   data-vv-name="password"
                   data-vv-as="hasło"
                   ref="password"
@@ -77,6 +77,7 @@
                   v-model="formData.city"
                   v-validate="'required'"
                   data-vv-name="city"
+                  ref="cityAutocomplete"
                   data-vv-as="miasto"
                   :error-messages="errors.collect('city')"
                   name="city" type="text" label="Miejscowość" prepend-icon="location_city"></v-text-field>
@@ -117,6 +118,9 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  mounted() {
+    this.initCityAutocomplete();
+  },
   created() {
     this.redirectIfUserLoggedIn();
   },
@@ -134,7 +138,7 @@ export default {
         password: null,
         city: null,
       },
-  };
+    };
   },
   methods: {
     validateForm() {
@@ -151,6 +155,23 @@ export default {
       if (this.isUserLoggedIn) {
         this.$router.push({ path: '/' });
       }
+    },
+    initCityAutocomplete() {
+      this.$gmapApiPromiseLazy().then(() => {
+      const cityInput = this.$refs.cityAutocomplete.$refs.input;
+      const options = {
+        types: ['(regions)'],
+      };
+      // eslint-disable-next-line
+      const autoComplete = new google.maps.places.Autocomplete(cityInput, options);
+      cityInput.placeholder = '';
+      autoComplete.addListener('place_changed', () => {
+        const place = autoComplete.getPlace();
+        const ac = place.address_components;
+        const city = ac[0].short_name;
+        this.formData.city = city;
+      });
+    });
     },
   },
   computed: {

@@ -5,6 +5,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuetify from 'vuetify';
 import VeeValidate, { Validator } from 'vee-validate';
+import * as VueGoogleMaps from 'vue2-google-maps';
 import pl from 'vee-validate/dist/locale/pl';
 import 'vuetify/dist/vuetify.min.css';
 import colors from 'vuetify/es5/util/colors';
@@ -23,6 +24,12 @@ Vue.use(Vuetify, {
 Validator.localize('pl', pl);
 Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBL0B3DQeGfDD6kyjtlbNbeRJEHNt_9giA',
+    libraries: 'places',
+  },
+});
 
 Vue.config.productionTip = false;
 
