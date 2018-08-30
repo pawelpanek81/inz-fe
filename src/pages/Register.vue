@@ -116,6 +116,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import swal from 'sweetalert2';
 
 export default {
   mounted() {
@@ -149,7 +150,33 @@ export default {
       });
     },
     register(formData) {
-      this.$store.dispatch('register', formData);
+      this.$store.dispatch('register', formData)
+        .then(() => {
+          this.$router.push({ path: '/login' });
+          swal({
+            type: 'success',
+            title: 'Sukces',
+            text: 'Konto zostało założone, teraz możesz się zalogować',
+            timer: 5000,
+          });
+        })
+        .catch((error) => {
+          const code = error.response.status;
+          let message = 'Wystąpił nieznany błąd.';
+          if (code === 409) {
+            message = 'Login lub email zajęty.';
+          } else if (code === 400) {
+            message = 'Serwer nie przyjmuje podanych danych.';
+          } else if (code >= 500) {
+            message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
+          }
+          swal({
+            type: 'error',
+            title: 'Błąd',
+            text: message,
+            timer: 5000,
+          });
+        });
     },
     redirectIfUserLoggedIn() {
       if (this.isUserLoggedIn) {
@@ -158,20 +185,21 @@ export default {
     },
     initCityAutocomplete() {
       this.$gmapApiPromiseLazy().then(() => {
-      const cityInput = this.$refs.cityAutocomplete.$refs.input;
-      const options = {
-        types: ['(regions)'],
-      };
-      // eslint-disable-next-line
-      const autoComplete = new google.maps.places.Autocomplete(cityInput, options);
-      cityInput.placeholder = '';
-      autoComplete.addListener('place_changed', () => {
-        const place = autoComplete.getPlace();
-        const ac = place.address_components;
-        const city = ac[0].short_name;
-        this.formData.city = city;
+        const cityInput = this.$refs.cityAutocomplete.$refs.input;
+        const options = {
+          types: ['(regions)'],
+        };
+        // eslint-disable-next-line
+        const autoComplete = new google.maps.places.Autocomplete(cityInput, options);
+        cityInput.placeholder = '';
+
+        autoComplete.addListener('place_changed', () => {
+          const place = autoComplete.getPlace();
+          const ac = place.address_components;
+          const city = ac[0].short_name;
+          this.formData.city = city;
+        });
       });
-    });
     },
   },
   computed: {

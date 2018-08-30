@@ -64,7 +64,6 @@ export default {
       this.$store.dispatch('login', credential)
         .then(() => {
           this.$router.push({ path: '/' });
-          // this.toast('success', 'Zostales zalogowany');
           swal({
             type: 'success',
             title: 'Ok',
@@ -75,12 +74,19 @@ export default {
             position: 'top-end',
           });
         })
-        .catch(() => {
+        .catch((error) => {
+          const code = error.response.status;
+          let message = 'Wystąpił nieznany błąd.';
+          if (code === 401) {
+            message = 'Podane dane są błędne.';
+          } else if (code >= 500) {
+            message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
+          }
           swal({
             type: 'error',
             title: 'Złe dane',
-            text: 'Podane dane są błędne',
-            timer: 3000,
+            text: message,
+            timer: 5000,
           });
         });
     },
