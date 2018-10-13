@@ -40,10 +40,10 @@
               <v-card-text class="px-3 py-0 font-italic">{{rating.comment}}</v-card-text>
               <v-card-actions class="pa-0">
                 <div class="caption">
-                  <span>dodano: 20.10.2018, przez: panczo12d</span>
+                  <span>dodano: {{rating.addedAt.substring(0, 10)}}, przez: {{rating.addedBy}}</span>
                 </div>
                 <v-spacer/>
-                <v-btn small depressed @click="ratingCommentClickHandler(rating.id)">dyskusja</v-btn>
+                <v-btn small flat @click="ratingCommentClickHandler(rating.id)">dyskusja</v-btn>
               </v-card-actions>
             </v-card>
             <v-container class="pa-0 py-2">
@@ -80,6 +80,11 @@ export default {
       actualRatingsPage: 0,
       ratingsPerPage: 3,
     };
+  },
+  watch: {
+    actualRatingsPage(newVal) {
+      this.$emit('changeRatingsPage', newVal);
+    },
   },
   computed: {
     starsRating() {

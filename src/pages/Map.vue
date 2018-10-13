@@ -4,7 +4,7 @@
       <v-flex :xl8="markerSelected" :xl12="!markerSelected"
               :lg8="markerSelected" :lg12="!markerSelected"
               :md12="!markerSelected" :md8="markerSelected"
-              sm12 xs12 pa-2 fill-height class="map-transition map-restrict-height">
+              sm12 xs12 pa-2 fill-height class="map-transition">
         <GmapMap
           :center="mapConf.coordinates"
           :zoom="mapConf.zoom"
@@ -19,7 +19,9 @@
       </v-flex>
       <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
-        <ratings-component :selectedPoint="selectedPoint" @hideRatings="markerSelected = false"/>
+        <ratings-component :selectedPoint="selectedPoint"
+                           @hideRatings="markerSelected = false"
+                           @changeRatingsPage="handleRatingsPageChanged"/>
       </v-flex>
       </transition>
     </v-layout>
@@ -75,7 +77,10 @@ export default {
         this.markerSelected = false;
         return;
       }
-      this.$http.get(`${endpoints.MAP}/${id}`)
+      this.getSelectedPointWithRatingsPage(id, 0);
+    },
+    getSelectedPointWithRatingsPage(mapPointId, ratingsPage) {
+      this.$http.get(`${endpoints.MAP}/${mapPointId}?size=3&page=${ratingsPage}&sort=addedAt,desc`)
         .then((response) => {
           this.markerSelected = true;
           this.selectedPoint = response.data;
@@ -94,6 +99,9 @@ export default {
           });
         });
     },
+    handleRatingsPageChanged(newRatingPage) {
+      this.getSelectedPointWithRatingsPage(this.selectedPoint.mapPoint.id, newRatingPage - 1);
+    },
   },
   mounted() {
     this.fetchMapPoints();
@@ -105,9 +113,6 @@ export default {
 .map {
   width: 100%;
   height: 100%;
-}
-.map-restrict-height {
-  max-height: 678.4px;
 }
 .map-transition {
   transition: all .4s;
