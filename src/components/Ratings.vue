@@ -1,12 +1,12 @@
 <template>
   <div>
-    <transition leave-active-class="animated bounceOutUp" enter-active-class="animated bounceInUp" mode="out-in">
+    <transition leave-active-class="animated zoomOut faster" enter-active-class="animated zoomIn faster" mode="out-in">
       <v-card v-if="displayedPanel === 'RATINGS'">
         <v-card-title primary class="title justify-center pb-2">
           {{selectedPoint.mapPoint.companyName}}
         </v-card-title>
         <div class="text-xs-center">
-          <v-rating readonly v-model="starsRating" class="pb-1"></v-rating>
+          <v-rating readonly half-increments v-model="starsRating" class="pb-1"></v-rating>
         </div>
         <v-card-text class="py-0">
           <div>{{selectedPoint.mapPoint.address}}</div>
@@ -36,7 +36,7 @@
                   small
                 ></v-rating>
               </v-card-title>
-              <v-card-text class="px-3 py-0 font-italic">{{rating.comment}}</v-card-text>
+              <v-card-text class="px-3 py-0 font-italic breakRating">{{rating.comment}}</v-card-text>
               <v-card-actions class="pa-0">
                 <div class="caption">
                   <span>dodano: {{rating.addedAt.substring(0, 10)}}, przez: {{rating.addedBy}}</span>
@@ -60,7 +60,9 @@
         </v-card-text>
       </v-card>
       <commentsComponent v-if="displayedPanel === 'COMMENTS'" @showRatingsAgain="displayedPanel = 'RATINGS'"/>
-      <newRatingComponent v-if="displayedPanel === 'NEW_RATING'" @showRatingsAgain="displayedPanel = 'RATINGS'"/>
+      <newRatingComponent v-if="displayedPanel === 'NEW_RATING'"
+                          @showRatingsAgain="displayedPanel = 'RATINGS'"
+                          :mapPointId="selectedPoint.mapPoint.id"/>
     </transition>
   </div>
 </template>
@@ -90,7 +92,7 @@ export default {
   computed: {
     starsRating() {
       if (this.selectedPoint === null) return 0;
-      return Math.round(this.selectedPoint.averageRating);
+      return this.selectedPoint.averageRating;
     },
   },
   methods: {
@@ -103,3 +105,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.breakRating {
+  word-wrap: break-word;
+}
+</style>

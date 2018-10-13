@@ -11,7 +11,7 @@
               <v-container grid-list-xl fluid class="pb-0">
               <v-layout wrap>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="formData.name"
                   v-validate="'required|min:3|max:12'"
                   :counter="12"
@@ -21,14 +21,14 @@
                   name="name" type="text" label="Imię" prepend-icon="person"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="formData.surname"
                   v-validate="'min:3|max:32'"
                   :counter="32"
                   name="surname" type="text" label="Nazwisko" prepend-icon="person"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="formData.username"
                   v-validate="'required|min:3|max:16'"
                   :counter="16"
@@ -38,7 +38,7 @@
                   name="login" type="text" label="Login" prepend-icon="people"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="formData.email"
                   v-validate="'required|email'"
                   data-vv-name="email"
@@ -47,7 +47,7 @@
                   name="email" type="text" label="Email" prepend-icon="alternate_email"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   id="password"
                   v-model="formData.password"
                   v-validate="'required|min:4'"
@@ -56,24 +56,24 @@
                   ref="password"
                   :error-messages="errors.collect('password')"
                   :append-icon="showPassword ? 'visibility_off' : 'visibility'"
-                  :type="showPassword ? 'text' : 'password'" 
+                  :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
                   name="password" label="Hasło" prepend-icon="lock"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="repassword"
                   v-validate="'required|confirmed:password'"
                   data-vv-name="repassword"
                   data-vv-as="powtórz hasło"
                   :error-messages="errors.collect('repassword')"
                   :append-icon="showRepassword ? 'visibility_off' : 'visibility'"
-                  :type="showRepassword ? 'text' : 'password'" 
+                  :type="showRepassword ? 'text' : 'password'"
                   @click:append="showRepassword = !showRepassword"
                   name="repassword" label="Powtórz hasło" prepend-icon="lock"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="py-0">
-                  <v-text-field 
+                  <v-text-field
                   v-model="formData.city"
                   v-validate="'required'"
                   data-vv-name="city"
@@ -83,7 +83,7 @@
                   name="city" type="text" label="Miejscowość" prepend-icon="location_city"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 class="py-0">
-                  <v-checkbox type="checkbox" 
+                  <v-checkbox type="checkbox"
                   v-model="rulesChecked"
                   v-validate="'required:true'"
                   data-vv-name="rules"
