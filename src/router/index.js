@@ -10,5 +10,6 @@ export default new Router({
     Navigation.MAP,
     Navigation.LOGIN,
     Navigation.REGISTER,
+    Navigation.PROFILE,
   ],
 });

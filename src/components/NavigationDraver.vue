@@ -120,7 +120,9 @@ export default {
   },
   methods: {
     navigationItemChanged(item) {
-      this.$store.dispatch('setToolbarTitle', item.title);
+      if (item.title !== undefined) {
+        this.$store.dispatch('setToolbarTitle', item.title);
+      }
 
       // if (item.title === 'Zaloguj') {
       //   this.$store.dispatch('setDrawer', false);

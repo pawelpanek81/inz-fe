@@ -4,11 +4,11 @@
       <v-flex :xl8="markerSelected" :xl12="!markerSelected"
               :lg8="markerSelected" :lg12="!markerSelected"
               :md12="!markerSelected" :md8="markerSelected"
-              sm12 xs12 pa-2 fill-height>
+              sm12 xs12 pa-2 fill-height class="map-transition">
         <GmapMap
           :center="mapConf.coordinates"
           :zoom="mapConf.zoom"
-        style="width: 100%; height: 100%; ">
+          style="width: 100%; height: 100%;">
           <GmapMarker
             :key="index"
             v-for="(el, index) in mapPointsList"
@@ -17,11 +17,12 @@
           />
         </GmapMap>
       </v-flex>
-      <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
+      <transition enter-active-class="animated bounceInRight" leave-active-class="animated bounceOutRight">
+        <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
         <v-card>
           <v-card-title primary class="title justify-center pb-2">{{selectedPoint.mapPoint.companyName}}</v-card-title>
           <div class="text-xs-center">
-            <v-rating readonly v-model="selectedPoint.averageRating" class="pb-1"></v-rating>
+            <v-rating readonly v-model="starsRating" class="pb-1"></v-rating>
           </div>
           <v-card-text class="py-0">
             <div>{{selectedPoint.mapPoint.address}}</div>
@@ -38,7 +39,7 @@
             <div class="text-xs-center title">Opinie</div>
             <div class="mt-2">
               <v-card v-for="rating in selectedPoint.ratings.content" :key="rating.id" @click="" flat
-                      class="rating mt-2">
+                      class="rating">
                 <v-card-title class="pa-0">
                   <div class="font-weight-medium">{{rating.header}}</div>
                 </v-card-title>
@@ -47,6 +48,8 @@
                   <div class="caption">
                     <span>dodano: 20.10.2018, przez: panczo12d</span>
                   </div>
+                  <v-spacer/>
+                  <v-btn small depressed @click="markerSelected = false">dyskusja</v-btn>
                 </v-card-actions>
               </v-card>
               <v-container class="pa-0 py-2">
@@ -64,6 +67,7 @@
           </v-card-text>
         </v-card>
       </v-flex>
+      </transition>
     </v-layout>
   </v-container>
 </template>
@@ -71,6 +75,7 @@
 <script>
 import swal from 'sweetalert2';
 import endpoints from '@/api/endpoints';
+import 'animate.css/animate.min.css';
 
 export default {
   data() {
@@ -84,9 +89,15 @@ export default {
         },
       },
       mapPointsList: [],
-      selectedPoint: {},
+      selectedPoint: null,
       actualRatingsPage: 0,
     };
+  },
+  computed: {
+    starsRating() {
+      if (this.selectedPoint === null) return 0;
+      return Math.round(this.selectedPoint.averageRating);
+    },
   },
   methods: {
     fetchMapPoints() {
@@ -136,7 +147,8 @@ export default {
 </script>
 
 <style scoped>
-.rating {
-  border-bottom: 1px solid firebrick;
+.map-transition {
+  transition: all .4s;
 }
+
 </style>
