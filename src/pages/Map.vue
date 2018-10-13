@@ -4,11 +4,11 @@
       <v-flex :xl8="markerSelected" :xl12="!markerSelected"
               :lg8="markerSelected" :lg12="!markerSelected"
               :md12="!markerSelected" :md8="markerSelected"
-              sm12 xs12 pa-2 fill-height class="map-transition">
+              sm12 xs12 pa-2 fill-height class="map-transition map-restrict-height">
         <GmapMap
           :center="mapConf.coordinates"
           :zoom="mapConf.zoom"
-          style="width: 100%; height: 100%;">
+          class="map">
           <GmapMarker
             :key="index"
             v-for="(el, index) in mapPointsList"
@@ -17,55 +17,9 @@
           />
         </GmapMap>
       </v-flex>
-      <transition enter-active-class="animated bounceInRight" leave-active-class="animated bounceOutRight">
+      <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
-        <v-card>
-          <v-card-title primary class="title justify-center pb-2">{{selectedPoint.mapPoint.companyName}}</v-card-title>
-          <div class="text-xs-center">
-            <v-rating readonly v-model="starsRating" class="pb-1"></v-rating>
-          </div>
-          <v-card-text class="py-0">
-            <div>{{selectedPoint.mapPoint.address}}</div>
-            <div>{{selectedPoint.mapPoint.zipCode}} {{selectedPoint.mapPoint.city}}</div>
-            <div>tel.: {{selectedPoint.mapPoint.phone}}</div>
-            <div class="mt-2">
-              <div>
-                <span class="font-weight-bold">Średnia ocen: </span><span>{{selectedPoint.ratingCount}}</span>
-              </div>
-              <div>
-                <span class="font-weight-bold">Opinie: </span><span>{{selectedPoint.averageRating}}</span>
-              </div>
-            </div>
-            <div class="text-xs-center title">Opinie</div>
-            <div class="mt-2">
-              <v-card v-for="rating in selectedPoint.ratings.content" :key="rating.id" @click="" flat
-                      class="rating">
-                <v-card-title class="pa-0">
-                  <div class="font-weight-medium">{{rating.header}}</div>
-                </v-card-title>
-                <v-card-text class="px-3 py-0 font-italic">{{rating.comment}}</v-card-text>
-                <v-card-actions class="pa-0">
-                  <div class="caption">
-                    <span>dodano: 20.10.2018, przez: panczo12d</span>
-                  </div>
-                  <v-spacer/>
-                  <v-btn small depressed @click="markerSelected = false">dyskusja</v-btn>
-                </v-card-actions>
-              </v-card>
-              <v-container class="pa-0 py-2">
-                <v-layout row wrap align-center>
-                  <v-flex class="text-xs-center">
-                    <v-pagination
-                      class="pa-2"
-                      v-model="actualRatingsPage"
-                      :length="selectedPoint.ratings.totalPages"
-                    ></v-pagination>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </div>
-          </v-card-text>
-        </v-card>
+        <ratings-component :selectedPoint="selectedPoint" @hideRatings="markerSelected = false"/>
       </v-flex>
       </transition>
     </v-layout>
@@ -74,10 +28,14 @@
 
 <script>
 import swal from 'sweetalert2';
-import endpoints from '@/api/endpoints';
 import 'animate.css/animate.min.css';
+import endpoints from '@/api/endpoints';
+import ratingsComponent from '@/components/Ratings';
 
 export default {
+  components: {
+    ratingsComponent,
+  },
   data() {
     return {
       markerSelected: false,
@@ -90,14 +48,7 @@ export default {
       },
       mapPointsList: [],
       selectedPoint: null,
-      actualRatingsPage: 0,
     };
-  },
-  computed: {
-    starsRating() {
-      if (this.selectedPoint === null) return 0;
-      return Math.round(this.selectedPoint.averageRating);
-    },
   },
   methods: {
     fetchMapPoints() {
@@ -120,6 +71,10 @@ export default {
         });
     },
     markerClickHandler(id) {
+      if (this.markerSelected === true) {
+        this.markerSelected = false;
+        return;
+      }
       this.$http.get(`${endpoints.MAP}/${id}`)
         .then((response) => {
           this.markerSelected = true;
@@ -147,8 +102,14 @@ export default {
 </script>
 
 <style scoped>
+.map {
+  width: 100%;
+  height: 100%;
+}
+.map-restrict-height {
+  max-height: 678.4px;
+}
 .map-transition {
   transition: all .4s;
 }
-
 </style>
