@@ -16,7 +16,7 @@ import apiConfig from './api/config';
 
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.red.darken3,
+    primary: colors.red.darken4,
     secondary: colors.red.lighten1,
     accent: colors.red.accent4,
   },

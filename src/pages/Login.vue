@@ -14,7 +14,7 @@
               data-vv-as="login"
               :error-messages="errors.collect('login')"
               prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
-              <v-text-field v-model="credential.password" 
+              <v-text-field v-model="credential.password"
               v-validate="'required'"
               data-vv-name="password"
               data-vv-as="hasło"

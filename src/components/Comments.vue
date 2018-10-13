@@ -1,7 +1,7 @@
 <template>
   <v-card>
-    <v-btn fab  flat @click="backToRatings">
-      <v-icon>keyboard_arrow_up</v-icon>
+    <v-btn flat @click="backToRatings">
+      <v-icon>keyboard_arrow_up</v-icon>Wróć
     </v-btn>
     <v-card-title primary class="title justify-center pb-2">lorem</v-card-title>
     <div class="text-xs-center">

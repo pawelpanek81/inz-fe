@@ -17,13 +17,13 @@
         <v-list-tile value="true" @click="navigationItemChanged()" to="">
           <v-list-tile-action><v-icon>directions_car</v-icon></v-list-tile-action>
           <v-list-tile-content>
-            <v-combobox
+            <v-select
               v-model="selectedCar"
               :items="cars"
               item-text="text"
               label="Wybierz auto"
               @change="carSelectedChange">
-            </v-combobox>
+            </v-select>
           </v-list-tile-content>
         </v-list-tile>
 
@@ -40,6 +40,11 @@
         <v-list-tile value="true" @click="navigationItemChanged('Mapa')" to="/map">
           <v-list-tile-action><v-icon>map</v-icon></v-list-tile-action>
           <v-list-tile-content><v-list-tile-title>Mapa</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Mapa')" to="/new-map-point">
+          <v-list-tile-action><v-icon>add_circle</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Dodaj punkt na mapie</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile value="true" @click="navigationItemChanged('Książka serwisowa')" to="/service">

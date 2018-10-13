@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition leave-active-class="animated bounceOutUp" enter-active-class="animated bounceInUp" mode="out-in">
-      <v-card v-if="!showComments">
+      <v-card v-if="displayedPanel === 'RATINGS'">
         <v-card-title primary class="title justify-center pb-2">
           {{selectedPoint.mapPoint.companyName}}
         </v-card-title>
@@ -59,7 +59,8 @@
           </div>
         </v-card-text>
       </v-card>
-      <commentsComponent v-if="showComments" @showRatingsAgain="showComments = false"/>
+      <commentsComponent v-if="displayedPanel === 'COMMENTS'" @showRatingsAgain="displayedPanel = 'RATINGS'"/>
+      <newRatingComponent v-if="displayedPanel === 'NEW_RATING'" @showRatingsAgain="displayedPanel = 'RATINGS'"/>
     </transition>
   </div>
 </template>
@@ -67,17 +68,18 @@
 <script>
 import 'animate.css/animate.min.css';
 import commentsComponent from '@/components/Comments';
+import newRatingComponent from '@/components/NewRating';
 
 export default {
   props: ['selectedPoint'],
   components: {
     commentsComponent,
+    newRatingComponent,
   },
   data() {
     return {
-      showComments: false,
+      displayedPanel: 'RATINGS',
       actualRatingsPage: 0,
-      ratingsPerPage: 3,
     };
   },
   watch: {
@@ -93,10 +95,10 @@ export default {
   },
   methods: {
     ratingCommentClickHandler(id) {
-      this.showComments = true;
+      this.displayedPanel = 'COMMENTS';
     },
     addNewRating() {
-      alert(1);
+      this.displayedPanel = 'NEW_RATING';
     },
   },
 };
