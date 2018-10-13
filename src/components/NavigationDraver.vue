@@ -9,28 +9,78 @@
       app
       v-if="isUserLoggedIn">
       <v-list>
-        <v-list-tile
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
-          @click="navigationItemChanged(item)"
-          :to="item.route"
-          >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
+        <v-list-tile value="true" @click="navigationItemChanged('Profil')" to="/profile">
+          <v-list-tile-action><v-icon>bubble_chart</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Profil</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged()" to="">
+          <v-list-tile-action><v-icon>directions_car</v-icon></v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" v-if="item.type !== 'combobox'"></v-list-tile-title>
             <v-combobox
-              v-else
               v-model="selectedCar"
               :items="cars"
               item-text="text"
               label="Wybierz auto"
-              @change="carSelectedChange"
-            ></v-combobox>
+              @change="carSelectedChange">
+            </v-combobox>
           </v-list-tile-content>
         </v-list-tile>
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Kokpit')" to="/dashboard">-->
+          <!--<v-list-tile-action><v-icon>insert_chart_outlined</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Kokpit</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Tankowanie')" to="/fuel">-->
+          <!--<v-list-tile-action><v-icon>opacity</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Tankowanie</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
+
+        <v-list-tile value="true" @click="navigationItemChanged('Mapa')" to="/map">
+          <v-list-tile-action><v-icon>map</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Mapa</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Książka serwisowa')" to="/service">
+          <v-list-tile-action><v-icon>build</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Książka serwisowa</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Inne wydatki')" to="/expense">-->
+          <!--<v-list-tile-action><v-icon>attach_money</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Inne wydatki</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Raport')" to="/report">-->
+          <!--<v-list-tile-action><v-icon>description</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Raport</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Kalendarz')" to="/calendar">-->
+          <!--<v-list-tile-action><v-icon>calendar_today</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Kalendarz</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
+
+        <v-list-tile value="true" @click="navigationItemChanged('Przegląd rejestracyjny')" to="/inspection">
+          <v-list-tile-action><v-icon>settings_input_hdmi</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Przegląd rejestracyjny</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Ubezpieczenie')" to="/insurance">
+          <v-list-tile-action><v-icon>verified_user</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Ubezpieczenie</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Powiadomienia')" to="/notifications">
+          <v-list-tile-action><v-icon>notifications</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Powiadomienia</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Ustawienia')" to="/profile">-->
+          <!--<v-list-tile-action><v-icon>settings</v-icon></v-list-tile-action>-->
+          <!--<v-list-tile-content><v-list-tile-title>Ustawienia</v-list-tile-title></v-list-tile-content>-->
+        <!--</v-list-tile>-->
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -41,72 +91,6 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      items: [
-        {
-          icon: 'bubble_chart',
-          title: 'Profil',
-          route: '/profile',
-        },
-        {
-          icon: 'directions_car',
-          type: 'combobox',
-        },
-        // {
-        //   icon: 'insert_chart_outlined',
-        //   title: 'Kokpit',
-        //   route: '/dashboard',
-        // },
-        // {
-        //   icon: 'opacity',
-        //   title: 'Tankowanie',
-        //   route: '/fuel',
-        // },
-        {
-          icon: 'map',
-          title: 'Mapa',
-          route: '/map',
-        },
-        {
-          icon: 'build',
-          title: 'Książka serwisowa',
-          route: '/service',
-        },
-        // {
-        //   icon: 'attach_money',
-        //   title: 'Inne wydatki',
-        //   route: '/expense',
-        // },
-        // {
-        //   icon: 'description',
-        //   title: 'Raport',
-        //   route: '/report',
-        // },
-        // {
-        //   icon: 'calendar_today',
-        //   title: 'Kalendarz',
-        //   route: '/calendar',
-        // },
-        {
-          icon: 'settings_input_hdmi',
-          title: 'Przegląd rejestracyjny',
-          route: '/inspection',
-        },
-        {
-          icon: 'verified_user',
-          title: 'Ubezpieczenie',
-          route: '/insurance',
-        },
-        {
-          icon: 'notifications',
-          title: 'Powiadomienia',
-          route: '/notifications',
-        },
-        // {
-        //   icon: 'settings',
-        //   title: 'Ustawienia',
-        //   route: '/settings',
-        // },
-      ],
       cars: [
         {
           text: 'Mercedes 190E',
@@ -119,9 +103,9 @@ export default {
     };
   },
   methods: {
-    navigationItemChanged(item) {
-      if (item.title !== undefined) {
-        this.$store.dispatch('setToolbarTitle', item.title);
+    navigationItemChanged(title) {
+      if (title !== undefined) {
+        this.$store.dispatch('setToolbarTitle', title);
       }
 
       // if (item.title === 'Zaloguj') {
