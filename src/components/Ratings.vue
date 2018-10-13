@@ -2,21 +2,12 @@
   <div>
     <transition leave-active-class="animated bounceOutUp" enter-active-class="animated bounceInUp" mode="out-in">
       <v-card v-if="!showComments">
-        <v-layout>
-          <v-flex class="text-xs-center">
-            <v-card-title primary class="title justify-center pb-2">
-            {{selectedPoint.mapPoint.companyName}}
-          </v-card-title>
-            <div class="text-xs-center">
-              <v-rating readonly v-model="starsRating" class="pb-1"></v-rating>
-            </div>
-          </v-flex>
-          <v-flex class="text-xs-right">
-            <v-btn flat fab  @click="emitHideRatings" class="mt-3 ml-3 mr-3 mb-2 ">
-              <v-icon>chevron_right</v-icon>
-            </v-btn>
-          </v-flex>
-        </v-layout>
+        <v-card-title primary class="title justify-center pb-2">
+          {{selectedPoint.mapPoint.companyName}}
+        </v-card-title>
+        <div class="text-xs-center">
+          <v-rating readonly v-model="starsRating" class="pb-1"></v-rating>
+        </div>
         <v-card-text class="py-0">
           <div>{{selectedPoint.mapPoint.address}}</div>
           <div>{{selectedPoint.mapPoint.zipCode}} {{selectedPoint.mapPoint.city}}</div>
@@ -29,13 +20,21 @@
               <span class="font-weight-bold">Opinie: </span><span>{{selectedPoint.averageRating}}</span>
             </div>
           </div>
-          <v-btn class="pa-0 ma-0 mt-2" flat color="primary">dodaj opinie</v-btn>
+          <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">dodaj opinie</v-btn>
           <div class="text-xs-center title">Opinie</div>
           <div class="mt-2">
             <v-card v-for="rating in selectedPoint.ratings.content" :key="rating.id" @click="" flat
                     class="rating">
               <v-card-title class="pa-0">
                 <div class="font-weight-medium">{{rating.header}}</div>
+                <v-spacer />
+                <v-rating
+                  v-model="rating.rating"
+                  background-color="primary lighten-3"
+                  color="primary"
+                  readonly
+                  small
+                ></v-rating>
               </v-card-title>
               <v-card-text class="px-3 py-0 font-italic">{{rating.comment}}</v-card-text>
               <v-card-actions class="pa-0">
@@ -96,8 +95,8 @@ export default {
     ratingCommentClickHandler(id) {
       this.showComments = true;
     },
-    emitHideRatings() {
-      this.$emit('hideRatings');
+    addNewRating() {
+      alert(1);
     },
   },
 };

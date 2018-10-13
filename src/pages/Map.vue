@@ -20,7 +20,6 @@
       <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
         <ratings-component :selectedPoint="selectedPoint"
-                           @hideRatings="markerSelected = false"
                            @changeRatingsPage="handleRatingsPageChanged"/>
       </v-flex>
       </transition>
@@ -73,7 +72,7 @@ export default {
         });
     },
     markerClickHandler(id) {
-      if (this.markerSelected === true) {
+      if (this.markerSelected === true && this.selectedPoint.mapPoint.id === id) {
         this.markerSelected = false;
         return;
       }

@@ -18,11 +18,26 @@ import swal from 'sweetalert2';
 export default {
   methods: {
     reportBug() {
-      swal(
-        'Ooo nie!',
-        'Ta aplikacja nie posiada błedów.',
-        'error',
-      );
+      swal({
+        title: 'Dodaj swoją uwagę',
+        input: 'textarea',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Wyślij!',
+        cancelButtonText: 'Anuluj',
+        preConfirm: (data) => {
+          console.log('send request with', data);
+        },
+      }).then((result) => {
+        if (result.value) {
+          swal(
+            'Dziękujemy',
+            'Twoja uwaga została przesłana',
+            'success',
+          );
+        }
+      });
     },
   },
   computed: {
