@@ -24,7 +24,7 @@ export default {
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,
-        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Wyślij!',
+        confirmButtonText: 'Wyślij',
         cancelButtonText: 'Anuluj',
         preConfirm: (data) => {
           console.log('send request with', data);
