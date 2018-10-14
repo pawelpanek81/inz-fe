@@ -19,8 +19,8 @@
       </v-flex>
       <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
-        <ratings-component :selectedPoint="selectedPoint"
-                           @ratingChanged="fetchMapPoint(selectedPoint.mapPoint.id)" />
+        <map-right-pane :selectedPoint="selectedPoint"
+                        @ratingChanged="fetchMapPoint(selectedPoint.mapPoint.id)" />
       </v-flex>
       </transition>
     </v-layout>
@@ -31,11 +31,11 @@
 import swal from 'sweetalert2';
 import 'animate.css/animate.min.css';
 import endpoints from '@/api/endpoints';
-import ratingsComponent from '@/components/Ratings';
+import mapRightPane from '@/components/MapRightPane';
 
 export default {
   components: {
-    ratingsComponent,
+    mapRightPane,
   },
   data() {
     return {
@@ -65,7 +65,7 @@ export default {
           }
           swal({
             type: 'error',
-            title: 'Złe dane',
+            title: 'Błąd',
             text: message,
             timer: 5000,
           });
@@ -92,7 +92,7 @@ export default {
           }
           swal({
             type: 'error',
-            title: 'Złe dane',
+            title: 'Błąd',
             text: message,
             timer: 5000,
           });

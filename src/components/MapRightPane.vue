@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition leave-active-class="animated bounceOutUp" enter-active-class="animated bounceInUp" mode="out-in">
-      <v-card v-if="displayRatings">
+      <v-card v-if="displayRatingsComponent">
         <v-card-title primary class="title justify-center pb-2">
           {{selectedPoint.mapPoint.companyName}}
         </v-card-title>
@@ -23,7 +23,7 @@
           <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">twoja opinia</v-btn>
           <div class="text-xs-center title">Opinie</div>
           <div class="mt-2">
-            <v-card v-for="rating in ratings.content" :key="rating.id" @click="" flat>
+            <v-card v-for="rating in ratings.content" :key="rating.id" flat>
               <v-card-title class="pa-0">
                 <v-flex xl6 lg6 md6 sm6 xs4 class="wordWrap">
                   <div class="font-weight-medium">{{rating.header}}</div>
@@ -60,13 +60,15 @@
           </div>
         </v-card-text>
       </v-card>
-      <comments-component v-if="!displayRatings" :mapPointId="selectedPoint.mapPoint.id" :rating="selectedRatingDiscuss"
-                         @showRatingsAgain="displayRatings = true"/>
+      <comments-component v-if="!displayRatingsComponent"
+                          :mapPointId="selectedPoint.mapPoint.id"
+                          :rating="selectedRatingDiscuss"
+                          @showRatingsAgain="displayRatingsComponent = true" />
     </transition>
-    <user-rating-component :displayNewRating="displayNewRating"
-                        :mapPointId="selectedPoint.mapPoint.id"
-                        @closeNewRatingDialog="displayNewRating = false"
-                        @ratingChanged="handleRatingAdded"/>
+    <user-rating-component :displayNewRatingDialog="displayNewRatingDialog"
+                           :mapPointId="selectedPoint.mapPoint.id"
+                           @closeNewRatingDialog="displayNewRatingDialog = false"
+                           @ratingChanged="handleRatingAdded" />
   </div>
 </template>
 
@@ -85,10 +87,10 @@ export default {
   },
   data() {
     return {
-      displayNewRating: false,
-      selectedRatingDiscuss: null,
+      displayRatingsComponent: true,
+      displayNewRatingDialog: false,
       ratings: [],
-      displayRatings: true,
+      selectedRatingDiscuss: null,
       actualDisplayedPage: 1,
     };
   },
@@ -104,11 +106,11 @@ export default {
     },
   },
   methods: {
-    fetchRatings(mapPointId, ratingsPage) {
-      this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${ratingsPage}&sort=addedAt,id,desc`)
+    fetchRatings(mapPointId, fetchedPage) {
+      this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${fetchedPage}&sort=addedAt,id,desc`)
         .then((response) => {
           this.ratings = response.data;
-          if (ratingsPage === 1 && this.ratings.content.length === 0) {
+          if (fetchedPage === 1 && this.ratings.content.length === 0) {
             this.actualDisplayedPage = 1;
             this.fetchMapPoint(mapPointId, 0);
           }
@@ -121,7 +123,7 @@ export default {
           }
           swal({
             type: 'error',
-            title: 'Złe dane',
+            title: 'Błąd',
             text: message,
             timer: 5000,
           });
@@ -129,10 +131,10 @@ export default {
     },
     ratingCommentClickHandler(rating) {
       this.selectedRatingDiscuss = rating;
-      this.displayRatings = false;
+      this.displayRatingsComponent = false;
     },
     addNewRating() {
-      this.displayNewRating = true;
+      this.displayNewRatingDialog = true;
     },
     handleRatingAdded() {
       this.fetchRatings(this.selectedPoint.mapPoint.id, this.actualDisplayedPage - 1);

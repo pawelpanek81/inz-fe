@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center >
-    <v-dialog @keydown.esc="abortRatingChange" v-model="displayNewRating" persistent max-width="500px">
+    <v-dialog @keydown.esc="resetValidatorAndCloseDialog" v-model="displayNewRatingDialog" persistent max-width="500px">
       <v-card>
         <v-card-title>
           <span class="headline">Nowa opinia</span>
@@ -40,9 +40,9 @@
             </v-textarea>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" flat :disabled="!ratingEditMode" @click="removeRating">Usuń opinię</v-btn>
+          <v-btn color="primary" flat :disabled="!editMode" @click="removeRating">Usuń opinię</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="abortRatingChange">Odrzuć zmiany</v-btn>
+          <v-btn color="primary" flat @click="resetValidatorAndCloseDialog">Odrzuć zmiany</v-btn>
           <v-btn color="primary" flat :disabled="!dataChanged" @click="validateForm">Zapisz</v-btn>
         </v-card-actions>
       </v-card>
@@ -55,10 +55,10 @@ import swal from 'sweetalert2';
 import endpoints from '@/api/endpoints';
 
 export default {
-  props: ['displayNewRating', 'mapPointId'],
+  props: ['displayNewRatingDialog', 'mapPointId'],
   data() {
     return {
-      ratingEditMode: false,
+      editMode: false,
       dataChanged: false,
       ratingDTO: {
         id: null,
@@ -69,14 +69,8 @@ export default {
     };
   },
   methods: {
-    clearValidator() {
+    resetValidatorAndCloseDialog() {
       this.$validator.reset();
-    },
-    abortRatingChange() {
-      this.clearValidator();
-      this.emitCloseDialog();
-    },
-    emitCloseDialog() {
       this.$emit('closeNewRatingDialog');
     },
     handleDataChanged() {
@@ -93,7 +87,7 @@ export default {
       }
       this.$validator.validateAll().then((result) => {
         if (result) {
-          if (this.ratingEditMode === true) {
+          if (this.editMode === true) {
             this.editRating(this.ratingDTO);
           } else {
             this.addNewRating(this.ratingDTO);
@@ -104,16 +98,15 @@ export default {
     addNewRating(ratingDTO) {
       this.$http.post(`${endpoints.MAP}/${this.mapPointId}/ratings`, ratingDTO)
         .then(() => {
-          this.emitCloseDialog();
           swal({
             type: 'success',
             title: 'Dziękujemy',
             text: 'Twoja opinia została dodana',
             timer: 5000,
           });
+          this.resetValidatorAndCloseDialog();
           this.fetchRatingIfExists(this.mapPointId);
-          this.clearValidator();
-          this.ratingEditMode = true;
+          this.editMode = true;
           this.dataChanged = false;
           this.$emit('ratingChanged');
         })
@@ -129,14 +122,13 @@ export default {
     editRating(ratingDTO) {
       this.$http.put(`${endpoints.MAP}/${this.mapPointId}/ratings/${ratingDTO.id}`, ratingDTO)
         .then(() => {
-          this.emitCloseDialog();
           swal({
             type: 'success',
             title: 'Dziękujemy',
             text: 'Twoja opinia została zaktualizowana',
             timer: 5000,
           });
-          this.clearValidator();
+          this.resetValidatorAndCloseDialog();
           this.dataChanged = false;
           this.$emit('ratingChanged');
         })
@@ -162,15 +154,15 @@ export default {
         if (result.value) {
           this.$http.delete(`${endpoints.MAP}/${this.mapPointId}/ratings/${this.ratingDTO.id}`)
             .then(() => {
-              this.emitCloseDialog();
               swal({
                 type: 'success',
                 title: 'Dziękujemy',
                 text: 'Twoja opinia została usunięta',
                 timer: 5000,
               });
-              this.clearValidator();
+              this.resetValidatorAndCloseDialog();
               this.dataChanged = false;
+              this.editMode = false;
               this.$emit('ratingChanged');
               this.ratingDTO = {
                 id: null,
@@ -178,7 +170,6 @@ export default {
                 comment: null,
                 rating: null,
               };
-              this.ratingEditMode = false;
             })
             .catch(() => {
               swal({
@@ -194,7 +185,7 @@ export default {
     fetchRatingIfExists(mapPointId) {
       this.$http.get(`${endpoints.MAP}/${mapPointId}/my-rating`)
         .then((response) => {
-          this.ratingEditMode = true;
+          this.editMode = true;
           this.ratingDTO = response.data;
         })
         .catch((error) => {
