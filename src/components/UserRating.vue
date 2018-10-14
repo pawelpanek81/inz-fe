@@ -42,7 +42,7 @@
         <v-card-actions>
           <v-btn color="primary" flat :disabled="!editMode" @click="removeRating">Usuń opinię</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="resetValidatorAndCloseDialog">Odrzuć zmiany</v-btn>
+          <v-btn color="primary" flat @click="resetValidatorAndCloseDialog">Anuluj</v-btn>
           <v-btn color="primary" flat :disabled="!dataChanged" @click="validateForm">Zapisz</v-btn>
         </v-card-actions>
       </v-card>
