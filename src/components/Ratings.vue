@@ -67,7 +67,7 @@
     <newRatingComponent :displayNewRating="displayNewRating"
                         :mapPointId="selectedPoint.mapPoint.id"
                         @closeNewRatingDialog="displayNewRating = false"
-                        @reFetchRatings="fetchRatings(selectedPoint.mapPoint.id, actualDisplayedPage - 1)"/>
+                        @addedRating="handleRatingAdded"/>
   </div>
 </template>
 
@@ -130,6 +130,10 @@ export default {
     },
     addNewRating() {
       this.displayNewRating = true;
+    },
+    handleRatingAdded() {
+      this.fetchRatings(this.selectedPoint.mapPoint.id, this.actualDisplayedPage - 1);
+      this.$emit('addedRating');
     },
   },
   mounted() {

@@ -92,7 +92,7 @@ export default {
           });
           this.clearDataAndValidator();
           this.backToRatings();
-          this.$emit('reFetchRatings');
+          this.$emit('addedRating');
         })
         .catch(() => {
           swal({
