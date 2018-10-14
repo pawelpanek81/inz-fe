@@ -11,7 +11,8 @@
                 v-model="newRatingDTO.rating"
                 color="red darken-3"
                 background-color="grey darken-1"
-                hover></v-rating>
+                hover
+                @input="handleDataChanged"></v-rating>
             </div>
             <v-text-field
               v-model="newRatingDTO.header"
@@ -23,6 +24,7 @@
               name="header"
               label="Tytuł opinii"
               prepend-icon="title"
+              @input="handleDataChanged"
             ></v-text-field>
             <v-textarea
               v-model="newRatingDTO.comment"
@@ -33,13 +35,14 @@
               :error-messages="errors.collect('comment')"
               name="comment"
               label="Komentarz do opinii"
-              prepend-icon="textsms">
+              prepend-icon="textsms"
+              @input="handleDataChanged">
             </v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="emitCloseDialog">Close</v-btn>
-          <v-btn color="primary" flat @click="validateForm">Save</v-btn>
+          <v-btn color="primary" flat @click="abortRatingChange">Odrzuć</v-btn>
+          <v-btn color="primary" flat :disabled="!dataChanged" @click="validateForm">Zapisz</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,6 +57,8 @@ export default {
   props: ['displayNewRating', 'mapPointId'],
   data() {
     return {
+      ratingEditMode: false,
+      dataChanged: false,
       newRatingDTO: {
         header: null,
         comment: null,
@@ -62,9 +67,6 @@ export default {
     };
   },
   methods: {
-    backToRatings() {
-      this.$emit('showRatingsAgain');
-    },
     validateForm() {
       if (this.newRatingDTO.rating === null) {
         swal(
@@ -76,7 +78,11 @@ export default {
       }
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.addNewRating(this.newRatingDTO);
+          if (this.ratingEditMode === true) {
+            this.editRating(this.newRatingDTO);
+          } else {
+            this.addNewRating(this.newRatingDTO);
+          }
         }
       });
     },
@@ -90,8 +96,10 @@ export default {
             text: 'Twoja opinia została dodana',
             timer: 5000,
           });
-          this.clearDataAndValidator();
-          this.backToRatings();
+          this.fetchRatingIfExists(this.mapPointId);
+          this.clearValidator();
+          this.ratingEditMode = true;
+          this.dataChanged = false;
           this.$emit('addedRating');
         })
         .catch(() => {
@@ -103,18 +111,63 @@ export default {
           });
         });
     },
-    clearDataAndValidator() {
-      this.newRatingDTO = {
-        header: null,
-        comment: null,
-        rating: null,
-      };
+    editRating(ratingDTO) {
+      this.$http.put(`${endpoints.MAP}/${this.mapPointId}/ratings/${ratingDTO.id}`, ratingDTO)
+        .then(() => {
+          this.emitCloseDialog();
+          swal({
+            type: 'success',
+            title: 'Dziękujemy',
+            text: 'Twoja opinia została zaktualizowana',
+            timer: 5000,
+          });
+          this.clearValidator();
+          this.dataChanged = false;
+          this.$emit('addedRating');
+        })
+        .catch(() => {
+          swal({
+            type: 'error',
+            title: 'Błąd',
+            text: 'Wystąpił błąd serwera, skontaktuj się z administratorem.',
+            timer: 5000,
+          });
+        });
+    },
+    clearValidator() {
       this.$validator.reset();
     },
+    abortRatingChange() {
+      this.clearValidator();
+      this.emitCloseDialog();
+    },
     emitCloseDialog() {
-      this.clearDataAndValidator();
       this.$emit('closeNewRatingDialog');
     },
+    handleDataChanged() {
+      this.dataChanged = true;
+    },
+    fetchRatingIfExists(mapPointId) {
+      this.$http.get(`${endpoints.MAP}/${mapPointId}/my-rating`)
+        .then((response) => {
+          this.ratingEditMode = true;
+          this.newRatingDTO = response.data;
+        })
+        .catch((error) => {
+          const code = error.response.status;
+          if (code !== 404) {
+            swal({
+              type: 'error',
+              title: 'Błąd',
+              text: 'Wystąpił błąd serwera, skontaktuj się z administratorem.',
+              timer: 5000,
+            });
+          }
+        });
+    },
+  },
+  mounted() {
+    this.fetchRatingIfExists(this.mapPointId);
   },
 };
 </script>

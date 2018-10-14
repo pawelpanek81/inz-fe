@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     fetchRatings(mapPointId, ratingsPage) {
-      this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${ratingsPage}&sort=addedAt,desc`)
+      this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${ratingsPage}&sort=addedAt,id,desc`)
         .then((response) => {
           this.ratings = response.data;
         })
