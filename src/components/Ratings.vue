@@ -20,7 +20,7 @@
               <span class="font-weight-bold">Opinie: </span><span>{{selectedPoint.averageRating}}</span>
             </div>
           </div>
-          <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">dodaj opinie</v-btn>
+          <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">twoja opinia</v-btn>
           <div class="text-xs-center title">Opinie</div>
           <div class="mt-2">
             <v-card v-for="rating in ratings.content" :key="rating.id" @click="" flat
@@ -61,10 +61,10 @@
           </div>
         </v-card-text>
       </v-card>
-      <commentsComponent v-if="!displayRatings" :rating="selectedRatingDiscuss"
+      <comments-component v-if="!displayRatings" :rating="selectedRatingDiscuss"
                          @showRatingsAgain="displayRatings = true"/>
     </transition>
-    <newRatingComponent :displayNewRating="displayNewRating"
+    <user-rating-component :displayNewRating="displayNewRating"
                         :mapPointId="selectedPoint.mapPoint.id"
                         @closeNewRatingDialog="displayNewRating = false"
                         @addedRating="handleRatingAdded"/>
@@ -75,14 +75,14 @@
 import endpoints from '@/api/endpoints';
 import 'animate.css/animate.min.css';
 import commentsComponent from '@/components/Comments';
-import newRatingComponent from '@/components/NewRating';
+import UserRatingComponent from '@/components/UserRating';
 import swal from 'sweetalert2';
 
 export default {
   props: ['selectedPoint'],
   components: {
     commentsComponent,
-    newRatingComponent,
+    UserRatingComponent,
   },
   data() {
     return {

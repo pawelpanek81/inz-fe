@@ -40,8 +40,9 @@
             </v-textarea>
         </v-card-text>
         <v-card-actions>
+          <v-btn color="primary" flat @click="">Usuń opinię</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="abortRatingChange">Odrzuć</v-btn>
+          <v-btn color="primary" flat @click="abortRatingChange">Odrzuć zmiany</v-btn>
           <v-btn color="primary" flat :disabled="!dataChanged" @click="validateForm">Zapisz</v-btn>
         </v-card-actions>
       </v-card>
