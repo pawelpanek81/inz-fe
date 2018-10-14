@@ -23,8 +23,7 @@
           <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">twoja opinia</v-btn>
           <div class="text-xs-center title">Opinie</div>
           <div class="mt-2">
-            <v-card v-for="rating in ratings.content" :key="rating.id" @click="" flat
-                    class="rating">
+            <v-card v-for="rating in ratings.content" :key="rating.id" @click="" flat>
               <v-card-title class="pa-0">
                 <v-flex xl6 lg6 md6 sm6 xs4 class="wordWrap">
                   <div class="font-weight-medium">{{rating.header}}</div>
@@ -61,7 +60,7 @@
           </div>
         </v-card-text>
       </v-card>
-      <comments-component v-if="!displayRatings" :rating="selectedRatingDiscuss"
+      <comments-component v-if="!displayRatings" :mapPointId="selectedPoint.mapPoint.id" :rating="selectedRatingDiscuss"
                          @showRatingsAgain="displayRatings = true"/>
     </transition>
     <user-rating-component :displayNewRating="displayNewRating"
