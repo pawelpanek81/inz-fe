@@ -19,8 +19,7 @@
       </v-flex>
       <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
-        <ratings-component :selectedPoint="selectedPoint"
-                           @changeRatingsPage="handleRatingsPageChanged"/>
+        <ratings-component :selectedPoint="selectedPoint" />
       </v-flex>
       </transition>
     </v-layout>
@@ -76,10 +75,7 @@ export default {
         this.markerSelected = false;
         return;
       }
-      this.getSelectedPointWithRatingsPage(id, 0);
-    },
-    getSelectedPointWithRatingsPage(mapPointId, ratingsPage) {
-      this.$http.get(`${endpoints.MAP}/${mapPointId}?size=3&page=${ratingsPage}&sort=addedAt,desc`)
+      this.$http.get(`${endpoints.MAP}/${id}`)
         .then((response) => {
           this.markerSelected = true;
           this.selectedPoint = response.data;
@@ -97,9 +93,6 @@ export default {
             timer: 5000,
           });
         });
-    },
-    handleRatingsPageChanged(newRatingPage) {
-      this.getSelectedPointWithRatingsPage(this.selectedPoint.mapPoint.id, newRatingPage - 1);
     },
   },
   mounted() {

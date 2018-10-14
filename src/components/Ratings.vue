@@ -1,7 +1,7 @@
 <template>
   <div>
-    <transition leave-active-class="animated zoomOut faster" enter-active-class="animated zoomIn faster" mode="out-in">
-      <v-card v-if="displayedPanel === 'RATINGS'">
+    <transition leave-active-class="animated bounceOutUp" enter-active-class="animated bounceInUp" mode="out-in">
+      <v-card v-if="displayRatings">
         <v-card-title primary class="title justify-center pb-2">
           {{selectedPoint.mapPoint.companyName}}
         </v-card-title>
@@ -23,10 +23,12 @@
           <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">dodaj opinie</v-btn>
           <div class="text-xs-center title">Opinie</div>
           <div class="mt-2">
-            <v-card v-for="rating in selectedPoint.ratings.content" :key="rating.id" @click="" flat
+            <v-card v-for="rating in ratings.content" :key="rating.id" @click="" flat
                     class="rating">
               <v-card-title class="pa-0">
-                <div class="font-weight-medium">{{rating.header}}</div>
+                <v-flex xl6 lg6 md6 sm6 xs4 class="wordWrap">
+                  <div class="font-weight-medium">{{rating.header}}</div>
+                </v-flex>
                 <v-spacer />
                 <v-rating
                   v-model="rating.rating"
@@ -36,13 +38,13 @@
                   small
                 ></v-rating>
               </v-card-title>
-              <v-card-text class="px-3 py-0 font-italic breakRating">{{rating.comment}}</v-card-text>
+              <v-card-text class="px-3 py-0 font-italic wordWrap">{{rating.comment}}</v-card-text>
               <v-card-actions class="pa-0">
                 <div class="caption">
                   <span>dodano: {{rating.addedAt.substring(0, 10)}}, przez: {{rating.addedBy}}</span>
                 </div>
                 <v-spacer/>
-                <v-btn small flat @click="ratingCommentClickHandler(rating.id)">dyskusja</v-btn>
+                <v-btn small flat @click="ratingCommentClickHandler(rating)">dyskusja</v-btn>
               </v-card-actions>
             </v-card>
             <v-container class="pa-0 py-2">
@@ -50,8 +52,8 @@
                 <v-flex class="text-xs-center">
                   <v-pagination
                     class="pa-2"
-                    v-model="actualRatingsPage"
-                    :length="selectedPoint.ratings.totalPages"
+                    v-model="actualDisplayedPage"
+                    :length="ratings.totalPages"
                   ></v-pagination>
                 </v-flex>
               </v-layout>
@@ -59,18 +61,22 @@
           </div>
         </v-card-text>
       </v-card>
-      <commentsComponent v-if="displayedPanel === 'COMMENTS'" @showRatingsAgain="displayedPanel = 'RATINGS'"/>
-      <newRatingComponent v-if="displayedPanel === 'NEW_RATING'"
-                          @showRatingsAgain="displayedPanel = 'RATINGS'"
-                          :mapPointId="selectedPoint.mapPoint.id"/>
+      <commentsComponent v-if="!displayRatings" :rating="selectedRatingDiscuss"
+                         @showRatingsAgain="displayRatings = true"/>
     </transition>
+    <newRatingComponent :displayNewRating="displayNewRating"
+                        :mapPointId="selectedPoint.mapPoint.id"
+                        @closeNewRatingDialog="displayNewRating = false"
+                        @reFetchRatings="fetchRatings(selectedPoint.mapPoint.id, actualDisplayedPage - 1)"/>
   </div>
 </template>
 
 <script>
+import endpoints from '@/api/endpoints';
 import 'animate.css/animate.min.css';
 import commentsComponent from '@/components/Comments';
 import newRatingComponent from '@/components/NewRating';
+import swal from 'sweetalert2';
 
 export default {
   props: ['selectedPoint'],
@@ -80,13 +86,16 @@ export default {
   },
   data() {
     return {
-      displayedPanel: 'RATINGS',
-      actualRatingsPage: 0,
+      displayNewRating: false,
+      selectedRatingDiscuss: null,
+      ratings: [],
+      displayRatings: true,
+      actualDisplayedPage: 1,
     };
   },
   watch: {
-    actualRatingsPage(newVal) {
-      this.$emit('changeRatingsPage', newVal);
+    actualDisplayedPage(newRatingPage) {
+      this.fetchRatings(this.selectedPoint.mapPoint.id, newRatingPage - 1);
     },
   },
   computed: {
@@ -96,18 +105,41 @@ export default {
     },
   },
   methods: {
-    ratingCommentClickHandler(id) {
-      this.displayedPanel = 'COMMENTS';
+    fetchRatings(mapPointId, ratingsPage) {
+      this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${ratingsPage}&sort=addedAt,desc`)
+        .then((response) => {
+          this.ratings = response.data;
+        })
+        .catch((error) => {
+          const code = error.response.status;
+          let message = 'Wystąpił nieznany błąd.';
+          if (code >= 500) {
+            message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
+          }
+          swal({
+            type: 'error',
+            title: 'Złe dane',
+            text: message,
+            timer: 5000,
+          });
+        });
+    },
+    ratingCommentClickHandler(rating) {
+      this.selectedRatingDiscuss = rating;
+      this.displayRatings = false;
     },
     addNewRating() {
-      this.displayedPanel = 'NEW_RATING';
+      this.displayNewRating = true;
     },
+  },
+  mounted() {
+    this.fetchRatings(this.selectedPoint.mapPoint.id, this.actualDisplayedPage - 1);
   },
 };
 </script>
 
 <style scoped>
-.breakRating {
+.wordWrap {
   word-wrap: break-word;
 }
 </style>

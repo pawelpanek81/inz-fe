@@ -5,7 +5,7 @@
     </v-btn>
     <v-card-title primary class="title justify-center pb-2">lorem</v-card-title>
     <div class="text-xs-center">
-      lorem
+      {{rating}}
     </div>
     <v-card-text class="py-0">
       <div>lorem</div>
@@ -52,11 +52,12 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      backToRatings() {
-        this.$emit('showRatingsAgain');
-      },
+export default {
+  props: ['rating'],
+  methods: {
+    backToRatings() {
+      this.$emit('showRatingsAgain');
     },
-  };
+  },
+};
 </script>
