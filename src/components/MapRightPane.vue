@@ -39,11 +39,9 @@
               </v-card-title>
               <v-card-text class="px-3 py-0 font-italic wordWrap">{{rating.comment}}</v-card-text>
               <v-card-actions class="pa-0">
-                <div class="caption">
-                  <span>dodano: {{rating.addedAt.substring(0, 10)}}, przez: {{rating.addedBy}}</span>
-                </div>
+                <span class="caption grey--text text--lighten-1">dodano: {{rating.addedAt.substring(0, 10)}}, przez: {{rating.addedBy}}</span>
                 <v-spacer/>
-                <v-btn small flat @click="ratingCommentClickHandler(rating)">dyskusja</v-btn>
+                <v-btn small flat outline @click="ratingCommentClickHandler(rating)">dyskusja</v-btn>
               </v-card-actions>
             </v-card>
             <v-container class="pa-0 py-2">
