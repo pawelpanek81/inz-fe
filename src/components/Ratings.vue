@@ -67,7 +67,7 @@
     <user-rating-component :displayNewRating="displayNewRating"
                         :mapPointId="selectedPoint.mapPoint.id"
                         @closeNewRatingDialog="displayNewRating = false"
-                        @addedRating="handleRatingAdded"/>
+                        @ratingChanged="handleRatingAdded"/>
   </div>
 </template>
 
@@ -109,6 +109,10 @@ export default {
       this.$http.get(`${endpoints.MAP}/${mapPointId}/ratings?size=3&page=${ratingsPage}&sort=addedAt,id,desc`)
         .then((response) => {
           this.ratings = response.data;
+          if (ratingsPage === 1 && this.ratings.content.length === 0) {
+            this.actualDisplayedPage = 1;
+            this.fetchMapPoint(mapPointId, 0);
+          }
         })
         .catch((error) => {
           const code = error.response.status;
@@ -133,7 +137,7 @@ export default {
     },
     handleRatingAdded() {
       this.fetchRatings(this.selectedPoint.mapPoint.id, this.actualDisplayedPage - 1);
-      this.$emit('addedRating');
+      this.$emit('ratingChanged');
     },
   },
   mounted() {

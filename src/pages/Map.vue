@@ -20,7 +20,7 @@
       <transition enter-active-class="animated bounceInRight">
         <v-flex xl4 lg4 md4 sm12 xs12 pa-2 fill-height v-if="markerSelected">
         <ratings-component :selectedPoint="selectedPoint"
-                           @addedRating="fetchMapPoint(selectedPoint.mapPoint.id)" />
+                           @ratingChanged="fetchMapPoint(selectedPoint.mapPoint.id)" />
       </v-flex>
       </transition>
     </v-layout>
