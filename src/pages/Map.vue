@@ -14,6 +14,7 @@
             v-for="(el, index) in mapPointsList"
             :position="{ lat: parseFloat(el.latitude), lng: parseFloat(el.longitude) }"
             @click="markerClickHandler(el.id)"
+            :icon="el.type.iconFile"
           />
         </GmapMap>
       </v-flex>

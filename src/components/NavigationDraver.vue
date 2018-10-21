@@ -42,7 +42,7 @@
           <v-list-tile-content><v-list-tile-title>Mapa</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile value="true" @click="navigationItemChanged('Mapa')" to="/new-map-point">
+        <v-list-tile value="true" @click="navigationItemChanged('Dodaj nowy punkt')" to="/add-map-point">
           <v-list-tile-action><v-icon>add_circle</v-icon></v-list-tile-action>
           <v-list-tile-content><v-list-tile-title>Dodaj punkt na mapie</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
@@ -144,8 +144,6 @@ export default {
       'clipped',
       'miniVariant',
       'fixed',
-      'loginPageActive',
-      'registerPageActive',
       'isUserLoggedIn',
     ]),
   },

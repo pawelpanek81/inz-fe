@@ -1,5 +1,6 @@
 import HelloWorld from '@/components/HelloWorld';
 import Map from '@/pages/Map';
+import AddMapPoint from '@/pages/AddMapPoint';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Profile from '@/pages/Profile';
@@ -19,6 +20,11 @@ export default {
     path: '/map',
     name: 'Map',
     component: Map,
+  },
+  ADD_MAP_POINT: {
+    path: '/add-map-point',
+    name: 'AddMapPoint',
+    component: AddMapPoint,
   },
   SERVICE: {
 

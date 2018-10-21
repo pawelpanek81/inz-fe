@@ -96,6 +96,10 @@ export default {
     actualDisplayedPage(newRatingPage) {
       this.fetchRatings(this.selectedPoint.mapPoint.id, newRatingPage - 1);
     },
+    selectedPoint() {
+      this.fetchRatings(this.selectedPoint.mapPoint.id, this.actualDisplayedPage - 1);
+      this.displayRatingsComponent = true;
+    },
   },
   computed: {
     starsRating() {
