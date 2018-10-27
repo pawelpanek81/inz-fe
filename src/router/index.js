@@ -9,6 +9,7 @@ export default new Router({
     Navigation.HELLOWORD,
     Navigation.MAP,
     Navigation.ADD_MAP_POINT,
+    Navigation.INSPECTION,
     Navigation.LOGIN,
     Navigation.REGISTER,
     Navigation.PROFILE,

@@ -27,6 +27,7 @@ export default {
         confirmButtonText: 'Wyślij',
         cancelButtonText: 'Anuluj',
         preConfirm: (data) => {
+          // eslint-disable-next-line
           console.log('send request with', data);
         },
       }).then((result) => {

@@ -36,7 +36,7 @@ Vue.config.productionTip = false;
 axios.defaults.baseURL = apiConfig.BASE_URL;
 
 axios.interceptors.request.use((config) => {
-  const authToken = store.getters.getRawToken
+  const authToken = store.getters.getRawToken;
   if (authToken) {
     // eslint-disable-next-line
     config.headers['Authorization'] = authToken;

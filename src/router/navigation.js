@@ -1,6 +1,7 @@
 import HelloWorld from '@/components/HelloWorld';
 import Map from '@/pages/Map';
 import AddMapPoint from '@/pages/AddMapPoint';
+import Inspection from '@/pages/Inspection';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Profile from '@/pages/Profile';
@@ -26,8 +27,10 @@ export default {
     name: 'AddMapPoint',
     component: AddMapPoint,
   },
-  SERVICE: {
-
+  INSPECTION: {
+    path: '/inspection',
+    name: 'Inspection',
+    component: Inspection,
   },
   LOGIN: {
     path: '/login',
