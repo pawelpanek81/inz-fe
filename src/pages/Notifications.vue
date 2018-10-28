@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <div>notifications</div>
+    <div>addedAt</div>
+    <div>text</div>
+    <div>read</div>
+    <div>carId</div>
+  </div>
+</template>

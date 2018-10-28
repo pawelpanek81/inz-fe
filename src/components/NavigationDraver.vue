@@ -67,7 +67,7 @@
           <!--<v-list-tile-content><v-list-tile-title>Kalendarz</v-list-tile-title></v-list-tile-content>-->
         <!--</v-list-tile>-->
 
-        <v-list-tile value="true" @click="navigationItemChanged('Przegląd rejestracyjny')" to="/inspection">
+        <v-list-tile value="true" @click="navigationItemChanged('Przegląd rejestracyjny')" to="/examination">
           <v-list-tile-action><v-icon>settings_input_hdmi</v-icon></v-list-tile-action>
           <v-list-tile-content><v-list-tile-title>Przegląd rejestracyjny</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
@@ -82,7 +82,7 @@
           <v-list-tile-content><v-list-tile-title>Powiadomienia</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
 
-        <!--<v-list-tile value="true" @click="navigationItemChanged('Ustawienia')" to="/profile">-->
+        <!--<v-list-tile value="true" @click="navigationItemChanged('Ustawienia')" to="/settings">-->
           <!--<v-list-tile-action><v-icon>settings</v-icon></v-list-tile-action>-->
           <!--<v-list-tile-content><v-list-tile-title>Ustawienia</v-list-tile-title></v-list-tile-content>-->
         <!--</v-list-tile>-->
@@ -122,7 +122,13 @@ export default {
       // }
     },
     carSelectedChange() {
-      // console.log(this.selectedCar.text);
+      console.log(this.selectedCar);
+      if (this.selectedCar === 'Dodaj nowe') {
+        this.navigationItemChanged('Dodaj nowe auto');
+        this.$router.push('/add-car');
+      } else {
+        this.$router.push('/car');
+      }
     },
 
   },

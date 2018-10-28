@@ -1,10 +1,15 @@
 import HelloWorld from '@/components/HelloWorld';
+import Profile from '@/pages/Profile';
+import CarDetails from '@/pages/CarDetails';
+import AddCar from '@/pages/AddCar';
 import Map from '@/pages/Map';
 import AddMapPoint from '@/pages/AddMapPoint';
-import Inspection from '@/pages/Inspection';
+import Service from '@/pages/Service';
+import Examination from '@/pages/Examination';
+import Insurance from '@/pages/Insurance';
+import Notifications from '@/pages/Notifications';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
-import Profile from '@/pages/Profile';
 
 export default {
   HELLOWORD: {
@@ -17,6 +22,16 @@ export default {
     name: 'Profile',
     component: Profile,
   },
+  CAR_DETAILS: {
+    path: '/car',
+    name: 'Car',
+    component: CarDetails,
+  },
+  ADD_CAR: {
+    path: '/add-car',
+    name: 'AddCar',
+    component: AddCar,
+  },
   MAP: {
     path: '/map',
     name: 'Map',
@@ -27,10 +42,25 @@ export default {
     name: 'AddMapPoint',
     component: AddMapPoint,
   },
-  INSPECTION: {
-    path: '/inspection',
-    name: 'Inspection',
-    component: Inspection,
+  SERVICE: {
+    path: '/service',
+    name: 'Service',
+    component: Service,
+  },
+  EXAMINATION: {
+    path: '/examination',
+    name: 'Examination',
+    component: Examination,
+  },
+  INSURANCE: {
+    path: '/insurance',
+    name: 'Insurance',
+    component: Insurance,
+  },
+  NOTIFICATIONS: {
+    path: '/notifications',
+    name: 'Notifications',
+    component: Notifications,
   },
   LOGIN: {
     path: '/login',

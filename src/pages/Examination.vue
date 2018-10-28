@@ -5,7 +5,7 @@
       examinationDate: <input type="text" name="examinationDate"/><br />
       carId: <input type="text" name="carId"/><br />
       description: <input type="text" name="description"/><br />
-      zdjecia: <input ref="multipartfiles" type="file" name="multipartfiles" multiple/><br />
+      zdjecia: <input ref="multipartfiles" type="file" name="multipartfiles" accept="image/*,application/pdf" multiple/><br />
       <button type="button" @click="a">button</button>
     </form>
     <hr />
@@ -39,6 +39,7 @@ export default {
       formData.append('carId', 4);
       formData.append('examinationDate', '2018-10-28');
       const len = multipartfiles.length;
+      // eslint-disable-next-line
       for (i = 0; i < len; i++) {
         formData.append('multipartfiles', multipartfiles[i]);
       }
