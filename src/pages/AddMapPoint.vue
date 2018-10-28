@@ -26,7 +26,7 @@
                       label="Informacje dodatkowe"
                     ></v-textarea>
                   </v-flex>
-                  <v-flex xs12 sm12 md6  class="py-0">
+                  <v-flex xs12 sm12 md6 class="py-0">
                     <v-text-field
                       v-validate="'required'"
                       data-vv-name="address"
@@ -116,7 +116,7 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex class="text-xs-right">
-                    <v-btn @click="validateForm" color="primary">Dodaj punkt</v-btn>
+                    <v-btn @click="validateForm" color="primary"><v-icon left >add_circle</v-icon>Dodaj punkt</v-btn>
                   </v-flex>
                 </v-layout>
               </v-form>

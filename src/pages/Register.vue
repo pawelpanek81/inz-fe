@@ -88,8 +88,15 @@
                   v-validate="'required:true'"
                   data-vv-name="rules"
                   data-vv-as="regulamin"
-                  :error-messages="errors.collect('rules')"
-                  label="Akceptuję regulamin"></v-checkbox>
+                  :error-messages="errors.collect('rules')">
+                    <div slot="label">
+                      Akceptuję
+                      <v-tooltip bottom>
+                        <a slot="activator" target="_blank" href="http://vuetifyjs.com" @click.stop>regulamin</a>
+                        Otwiera regulamin w nowym oknie
+                      </v-tooltip>
+                    </div>
+                  </v-checkbox>
                 </v-flex>
               </v-layout>
               </v-container>
@@ -97,9 +104,6 @@
           </v-card-text>
           <v-card-actions>
             <v-layout column class="ml-2">
-              <div>
-                <a href="static/regulamin.pdf">Regulamin portalu</a>
-              </div>
               <div>
                 <span>Posiadasz już konto?</span>
                 <v-btn to="login" small flat color="secondary" class="pa-0">Zaloguj się</v-btn>
