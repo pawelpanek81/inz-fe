@@ -12,6 +12,7 @@ export default {
         const rawToken = response.headers.authorization;
         localStorage.setItem(LOCALSTORAGE_TOKEN, rawToken);
         dispatch('authorizeWithToken', rawToken);
+        dispatch('fetchUnreadNotifications');
       })
       .catch(error => Promise.reject(error));
   },

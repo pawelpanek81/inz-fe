@@ -59,10 +59,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import swal from 'sweetalert2';
-import VListTileAction from "vuetify/src/components/VList/VListTileAction";
 
 export default {
-  components: {VListTileAction},
   methods: {
     changeMiniVariant() {
       this.$store.dispatch('setMiniVariant', !this.miniVariant);
@@ -103,22 +101,6 @@ export default {
           });
         });
     },
-    fetchUnreadNotifications() {
-      this.$store.dispatch('fetchUnreadNotifications')
-        .catch((error) => {
-          const code = error.response.status;
-          let message = 'Wystąpił nieznany błąd.';
-          if (code >= 500) {
-            message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
-          }
-          swal({
-            type: 'error',
-            title: 'Błąd',
-            text: message,
-            timer: 5000,
-          });
-        });
-    },
   },
   computed: {
     ...mapGetters([
@@ -135,9 +117,6 @@ export default {
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
-  },
-  mounted() {
-    this.fetchUnreadNotifications();
   },
 };
 </script>
