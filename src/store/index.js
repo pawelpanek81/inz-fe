@@ -5,6 +5,7 @@ import rootGetters from './getters';
 import rootMutations from './mutations';
 import rootActions from './actions';
 import userModule from './modules/user/index';
+import notificationModule from './modules/notification/index';
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
   actions: rootActions,
   modules: {
     userModule,
+    notificationModule,
   },
 });

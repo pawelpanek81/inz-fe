@@ -8,8 +8,12 @@
           </v-card-title>
           <v-card-text>
             <div class="mb-3">
-              <v-btn color="primary" outline @click="all">Przeczytaj wszystkie</v-btn>
-              <v-btn color="primary" outline @click="none">Zwiń</v-btn>
+              <v-layout wrap>
+                <v-btn color="primary" outline @click="expandAll">Rozwiń wszystkie</v-btn>
+                <v-btn color="primary" outline @click="collapseAll">Zwiń</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" outline @click="readAll">Przeczytaj wszystkie</v-btn>
+              </v-layout>
             </div>
             <v-expansion-panel
               v-model="panel"
@@ -17,9 +21,14 @@
               popout>
               <v-expansion-panel-content
                 v-for="(item,i) in notificationPage.content"
-                :key="i">
-                <div slot="header" :class="{ 'font-weight-bold': !item.read }" @click="makeElementRead(item)">
-                  {{item.header}}
+                :key="i"
+                @click.native="makeElementRead(item)">
+                <div slot="header" :class="{ 'font-weight-bold': !item.read }">
+                  <v-layout>
+                    {{item.header}}
+                    <v-spacer />
+                    {{item.addedAt.substring(0, 10)}} {{item.addedAt.substring(11, 16)}}
+                  </v-layout>
                 </div>
                 <v-card>
                   <v-card-text>
@@ -55,6 +64,7 @@
 <script>
 import endpoints from '@/api/endpoints';
 import swal from 'sweetalert2';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -68,9 +78,17 @@ export default {
   },
   watch: {
     actualDisplayedPage(newPage) {
-      this.none();
+      this.collapseAll();
       this.fetchNotificationPage(newPage - 1);
     },
+    newNotificationsCount() {
+      this.fetchNotificationPage(this.actualDisplayedPage - 1);
+    },
+  },
+  computed: {
+    ...mapGetters({
+      newNotificationsCount: 'getUnreadCount',
+    }),
   },
   methods: {
     fetchNotificationPage(fetchedPage) {
@@ -92,19 +110,20 @@ export default {
           });
         });
     },
-    all() {
+    expandAll() {
       this.panel = [...Array(this.notificationPage.numberOfElements).keys()].map(_ => true);
+    },
+    readAll() {
+      this.panel = this.notificationPage.content
+        .map(el => !el.read);
       this.notificationPage.content.forEach(el => this.makeElementRead(el));
     },
-    none() {
+    collapseAll() {
       this.panel = [];
     },
     makeElementRead(element) {
       const notification = element;
-      notification.read = true;
-      this.$http.put(`${endpoints.NOTIFICATIONS}/${notification.id}`, {
-        read: 'true',
-      })
+      this.$store.dispatch('makeElementRead', notification)
         .catch((error) => {
           const code = error.response.status;
           let message = 'Wystąpił nieznany błąd.';
@@ -118,6 +137,7 @@ export default {
             timer: 5000,
           });
         });
+      notification.read = true;
     },
   },
   mounted() {
