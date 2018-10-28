@@ -36,10 +36,20 @@
       </v-btn>
       <v-list>
         <v-list-tile @click="profileClickHandler">
-          <v-list-tile-title>Profil</v-list-tile-title>
+          <v-list-tile-content>
+            <v-list-tile-title>Profil</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-icon color="grey lighteen-1">account_circle</v-icon>
+          </v-list-tile-action>
         </v-list-tile>
         <v-list-tile @click="logout">
-          <v-list-tile-title>Wyloguj</v-list-tile-title>
+          <v-list-tile-content>
+            <v-list-tile-title>Wyloguj</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+              <v-icon color="grey lighten-1">exit_to_app</v-icon>
+          </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -49,8 +59,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import swal from 'sweetalert2';
+import VListTileAction from "vuetify/src/components/VList/VListTileAction";
 
 export default {
+  components: {VListTileAction},
   methods: {
     changeMiniVariant() {
       this.$store.dispatch('setMiniVariant', !this.miniVariant);
@@ -125,7 +137,7 @@ export default {
     },
   },
   mounted() {
-    setInterval(() => this.fetchUnreadNotifications(), 10000);
+    this.fetchUnreadNotifications();
   },
 };
 </script>

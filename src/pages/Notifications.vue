@@ -7,7 +7,7 @@
             <span class="title">Lista powiadomień</span>
           </v-card-title>
           <v-card-text>
-            <div class="mb-3">
+            <div class="mb-3" v-if="!isMobile">
               <v-layout wrap>
                 <v-btn color="primary" outline @click="expandAll">Rozwiń wszystkie</v-btn>
                 <v-btn color="primary" outline @click="collapseAll">Zwiń</v-btn>
@@ -27,7 +27,7 @@
                   <v-layout>
                     {{item.header}}
                     <v-spacer />
-                    {{item.addedAt.substring(0, 10)}} {{item.addedAt.substring(11, 16)}}
+                    <span v-if="!isMobile">{{item.addedAt.substring(0, 10)}} {{item.addedAt.substring(11, 16)}}</span>
                   </v-layout>
                 </div>
                 <v-card>
@@ -89,6 +89,9 @@ export default {
     ...mapGetters({
       newNotificationsCount: 'getUnreadCount',
     }),
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
   },
   methods: {
     fetchNotificationPage(fetchedPage) {
