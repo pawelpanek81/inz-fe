@@ -6,6 +6,7 @@ import rootMutations from './mutations';
 import rootActions from './actions';
 import userModule from './modules/user/index';
 import notificationModule from './modules/notification/index';
+import carModule from './modules/car/index';
 
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
   modules: {
     userModule,
     notificationModule,
+    carModule,
   },
 });

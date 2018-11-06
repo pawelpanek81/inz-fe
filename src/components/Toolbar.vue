@@ -111,8 +111,8 @@ export default {
     ]),
     ...mapGetters({
       title: 'toolbarTitle',
-      notifications: 'getUnreadNotifications',
-      newNotificationsCount: 'getUnreadCount',
+      notifications: 'unreadNotifications',
+      newNotificationsCount: 'unreadCount',
     }),
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;

@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      newNotificationsCount: 'getUnreadCount',
+      newNotificationsCount: 'unreadCount',
     }),
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;

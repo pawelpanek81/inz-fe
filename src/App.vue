@@ -3,7 +3,9 @@
     <app-navigation-draver />
     <app-toolbar />
     <v-content>
-      <router-view/>
+      <v-slide-y-transition mode="out-in">
+        <router-view/>
+      </v-slide-y-transition>
     </v-content>
     <app-footer />
   </v-app>
@@ -45,6 +47,17 @@ export default {
         const initRoute = this.$route.path;
         this.redirectIfNotLogged(initRoute);
       });
+  },
+  mounted() {
+    if (this.isUserLoggedIn) {
+      this.$store.dispatch('fetchUnreadNotifications');
+      this.$store.dispatch('getAllCars');
+    }
+    setInterval(() => {
+      if (this.isUserLoggedIn) {
+        this.$store.dispatch('fetchUnreadNotifications');
+      }
+    }, 10000);
   },
 };
 </script>

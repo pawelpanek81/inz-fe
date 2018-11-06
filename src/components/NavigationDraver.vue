@@ -20,11 +20,17 @@
             <v-select
               v-model="selectedCar"
               :items="cars"
-              item-text="text"
+              :item-text="getCarText"
+              item-value="id"
               label="Wybierz auto"
               @change="carSelectedChange">
             </v-select>
           </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Dodaj nowe auto')" to="/add-car">
+          <v-list-tile-action><v-icon>add_box</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Dodaj nowe auto</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
 
         <!--<v-list-tile value="true" @click="navigationItemChanged('Kokpit')" to="/dashboard">-->
@@ -92,42 +98,30 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import swal from 'sweetalert2';
 
 export default {
-  data() {
-    return {
-      cars: [
-        {
-          text: 'Mercedes 190E',
-        },
-        {
-          text: 'Dodaj nowe',
-        },
-      ],
-      selectedCar: null,
-    };
-  },
   methods: {
+    getCarText(car) {
+      return `${car.brand} ${car.model}`;
+    },
     navigationItemChanged(title) {
       if (title !== undefined) {
         this.$store.dispatch('setToolbarTitle', title);
       }
-
-      // if (item.title === 'Zaloguj') {
-      //   this.$store.dispatch('setDrawer', false);
-      //   this.$store.dispatch('setToolbarVisible', false);
-      // } else {
-      //   this.$store.dispatch('setDrawer', null);
-      //   this.$store.dispatch('setToolbarVisible', true);
-      // }
     },
-    carSelectedChange() {
-      console.log(this.selectedCar);
-      if (this.selectedCar === 'Dodaj nowe') {
-        this.navigationItemChanged('Dodaj nowe auto');
-        this.$router.push('/add-car');
-      } else {
-        this.$router.push('/car');
+    carSelectedChange(selectedCarId) {
+      this.$store.dispatch('setSelectedCar', selectedCarId);
+      this.navigationItemChanged('Szczegóły pojazdu');
+      this.$router.push('/car');
+      if (this.selectedCar == null || selectedCarId !== this.selectedCar.id) {
+        swal({
+          type: 'success',
+          title: 'Wybrano',
+          text: 'Samochód został wybrany',
+          timer: 2000,
+          showConfirmButton: false,
+        });
       }
     },
 
@@ -151,6 +145,8 @@ export default {
       'miniVariant',
       'fixed',
       'isUserLoggedIn',
+      'cars',
+      'selectedCar',
     ]),
   },
 };

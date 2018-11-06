@@ -6,4 +6,5 @@ export default {
   MAP_POINT_TYPES: '/map/map-point-types',
   UNREAD_NOTIFICATIONS: '/notification/unread-notifications',
   NOTIFICATIONS: '/notification/notifications',
+  CARS: '/car/cars',
 };

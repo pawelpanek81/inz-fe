@@ -1,4 +1,4 @@
 export default {
-  getUnreadNotifications: state => state.unreadNotifications,
-  getUnreadCount: state => state.unreadCount,
+  unreadNotifications: state => state.unreadNotifications,
+  unreadCount: state => state.unreadCount,
 };

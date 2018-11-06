@@ -13,6 +13,7 @@ export default {
         localStorage.setItem(LOCALSTORAGE_TOKEN, rawToken);
         dispatch('authorizeWithToken', rawToken);
         dispatch('fetchUnreadNotifications');
+        dispatch('getAllCars');
       })
       .catch(error => Promise.reject(error));
   },
