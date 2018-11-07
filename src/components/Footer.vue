@@ -26,9 +26,9 @@ export default {
         focusConfirm: false,
         confirmButtonText: 'Wyślij',
         cancelButtonText: 'Anuluj',
+        // eslint-disable-next-line
         preConfirm: (data) => {
-          // eslint-disable-next-line
-          console.log('send request with', data);
+          // send request
         },
       }).then((result) => {
         if (result.value) {

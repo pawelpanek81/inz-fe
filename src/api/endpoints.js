@@ -7,4 +7,6 @@ export default {
   UNREAD_NOTIFICATIONS: '/notification/unread-notifications',
   NOTIFICATIONS: '/notification/notifications',
   CARS: '/car/cars',
+  EXAMINATIONS: '/examination/examinations',
+  EXAMINATION_DOCUMENTS: '/examination/documents',
 };

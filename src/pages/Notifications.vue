@@ -114,6 +114,7 @@ export default {
         });
     },
     expandAll() {
+      // eslint-disable-next-line
       this.panel = [...Array(this.notificationPage.numberOfElements).keys()].map(_ => true);
     },
     readAll() {

@@ -118,6 +118,8 @@ export default {
         swal({
           type: 'success',
           title: 'Wybrano',
+          toast: true,
+          position: 'top-right',
           text: 'Samochód został wybrany',
           timer: 2000,
           showConfirmButton: false,
@@ -137,6 +139,14 @@ export default {
         }
       },
     },
+    selectedCar: {
+      get() {
+        return this.$store.getters.selectedCar;
+      },
+      set(val) {
+        this.$store.dispatch('setSelectedCar', val);
+      },
+    },
     isMobile() {
       return this.$vuetify.breakpoint.xsOnly;
     },
@@ -146,7 +156,6 @@ export default {
       'fixed',
       'isUserLoggedIn',
       'cars',
-      'selectedCar',
     ]),
   },
 };
