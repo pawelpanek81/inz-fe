@@ -220,7 +220,7 @@ export default {
   background-image: url("/static/chuttersnap-299121-unsplash.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-position: center;
+  background-position-y: 50%;
   background-size: cover;
   height: 100%;
 }

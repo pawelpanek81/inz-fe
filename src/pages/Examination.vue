@@ -4,14 +4,17 @@
       <v-flex xs12 class="pa-2">
         <v-card>
           <v-card-title primary-title class="pb-0">
-            <span class="title">Ostatni przegląd:</span>
+            <span class="title">Ostatni przegląd</span>
           </v-card-title>
           <v-card-text>
-            <div>{{lastExamination.examinationDate}}</div>
-            <div>{{lastExamination.description}}</div>
-            <div class="caption grey--text text--lighten-1">
+            <div>Data wykonania:
+              <span class="font-weight-bold">{{lastExamination.examinationDate}}</span>
+            </div>
+            <p>Opis: {{lastExamination.description === null ? 'brak' : lastExamination.description}}</p>
+            <span v-if="lastExamination.documents.length > 0" class="caption">Dokumenty:</span>
+            <div class="caption primary--text text--accent-4">
                       <span v-for="doc in lastExamination.documents">
-                        <div @click="downloadFile(doc.fileName, doc.documentId)">{{doc.fileName}}</div>
+                        <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
                       </span>
             </div>
           </v-card-text>
@@ -90,12 +93,15 @@
                 <div slot="header">{{examination.examinationDate}}</div>
                 <v-card>
                   <v-card-text class="grey lighten-3">
-                    <div>{{examination.description}}</div>
-                    <div class="caption grey--text text--lighten-1">
+                    <p>Opis: {{examination.description === null? 'brak' : examination.description}}</p>
+
+                    <span v-if="examination.documents.length > 0" class="caption">Dokumenty:</span>
+                    <div class="caption primary--text text--accent-1">
                       <span v-for="doc in examination.documents">
-                        <div @click="downloadFile(doc.fileName, doc.documentId)">{{doc.fileName}}</div>
+                        <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
                       </span>
                     </div>
+                    <div class="caption pt-2">Auto: {{examination.car}}</div>
                   </v-card-text>
                 </v-card>
               </v-expansion-panel-content>
@@ -144,7 +150,7 @@ export default {
   },
   watch: {
     actualDisplayedPage(newPage) {
-      this.fetchRatings(this.selectedCar.id, newPage - 1);
+      this.getData(this.selectedCar.id, newPage - 1);
     },
   },
   computed: {
@@ -211,7 +217,7 @@ export default {
         })
         .catch((error) => {
           const code = error.response.status;
-          let message = 'Wystąpił nieznany błąd.';
+          let message = 'Pliki posiadają złe rozszerzenie.';
           if (code >= 500) {
             message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
           }
@@ -257,7 +263,7 @@ export default {
       });
     },
     getLastExamination(carId) {
-      this.$http.get(`${endpoints.EXAMINATIONS}/last-examination?carId=${carId}`)
+      this.$http.get(`${endpoints.LAST_EXAMINATION}?carId=${carId}`)
         .then((response) => {
           this.lastExamination = response.data;
         });
@@ -278,3 +284,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.document-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>

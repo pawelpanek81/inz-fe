@@ -19,12 +19,11 @@
       <v-list>
         <v-list-tile
           v-for="(notification, index) in notifications"
-          :key="index"
-          @click="notificationClickHandler(notification)">
+          :key="index">
           <v-icon class="pr-2">info</v-icon>
           {{ notification.header }}
           <v-spacer/>
-          <v-btn v-if="!isMobile" small flat color="primary">odczytaj</v-btn>
+          <v-btn v-if="!isMobile" small flat color="primary" @click="notificationReadClickHandler(notification)">odczytaj</v-btn>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -85,7 +84,7 @@ export default {
       this.$store.dispatch('setToolbarTitle', 'Profil');
       this.$router.push({ path: '/profile' });
     },
-    notificationClickHandler(notification) {
+    notificationReadClickHandler(notification) {
       this.$store.dispatch('makeElementRead', notification)
         .catch((error) => {
           const code = error.response.status;

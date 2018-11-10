@@ -8,5 +8,10 @@ export default {
   NOTIFICATIONS: '/notification/notifications',
   CARS: '/car/cars',
   EXAMINATIONS: '/examination/examinations',
+  LAST_EXAMINATION: '/examination/examinations/last-examination',
   EXAMINATION_DOCUMENTS: '/examination/documents',
+  INSURANCES: '/insurance/insurances',
+  LAST_THIRD_PARTY_INSURANCE: '/insurance/insurances/last-third-party-insurance',
+  LAST_FULLY_INSURANCE: '/insurance/insurances/last-fully-insurance',
+  INSURANCE_DOCUMENTS: '/insurance/documents',
 };
