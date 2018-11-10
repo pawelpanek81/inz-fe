@@ -244,6 +244,7 @@ export default {
             cost: null,
           };
           this.selectedFiles = [];
+          this.$validator.reset();
         })
         .catch((error) => {
           const code = error.response.status;
