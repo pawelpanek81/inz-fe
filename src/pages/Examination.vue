@@ -149,6 +149,7 @@ export default {
       lastExamination: {
         examinationDate: 'Brak ostatniego przeglądu',
         description: '',
+        documents: [],
       },
     };
   },

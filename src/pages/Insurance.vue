@@ -1,7 +1,6 @@
 <template>
   <v-container fluid class="pa-2">
     <v-layout wrap>
-
       <v-flex xs12 sm6 class="pa-2">
         <v-card>
           <v-card-title primary-title class="pb-0">
@@ -9,15 +8,17 @@
           </v-card-title>
           <v-card-text>
             <div v-if="lastThirdPartyInsurance.id !== undefined">
-              <div>Ubezpieczenie ważne od {{lastThirdPartyInsurance.fromDate}} do: {{lastThirdPartyInsurance.toDate}}</div>
+              <div>Ubezpieczenie ważne od {{lastThirdPartyInsurance.fromDate}} do:
+                {{lastThirdPartyInsurance.toDate}}
+              </div>
               <div>Opis: {{lastThirdPartyInsurance.description}}</div>
               <div>Cena: {{lastThirdPartyInsurance.cost}} zł</div>
-              <div>Typ: {{insuranceTypeToString(lastThirdPartyInsurance.type)}}</div>
-              <div class="caption pt-2">{{lastThirdPartyInsurance.car}}</div>
+              <p>Typ: {{insuranceTypeToString(lastThirdPartyInsurance.type)}}</p>
               <span v-if="lastThirdPartyInsurance.documents.length > 0" class="caption">Dokumenty:</span>
               <div class="caption primary--text text--accent-4">
                       <span v-for="doc in lastThirdPartyInsurance.documents">
-                        <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
+                        <div @click="downloadFile(doc.fileName, doc.documentId)"
+                             class="document-link">{{doc.fileName}}</div>
                       </span>
               </div>
             </div>
@@ -25,7 +26,6 @@
           </v-card-text>
         </v-card>
       </v-flex>
-
       <v-flex xs12 sm6 class="pa-2">
         <v-card>
           <v-card-title primary-title class="pb-0">
@@ -36,12 +36,12 @@
               <div>Ubezpieczenie ważne od {{lastFullyInsurance.fromDate}} do: {{lastFullyInsurance.toDate}}</div>
               <div>Opis: {{lastFullyInsurance.description}}</div>
               <div>Cena: {{lastFullyInsurance.cost}} zł</div>
-              <div>Typ: {{insuranceTypeToString(lastFullyInsurance.type)}}</div>
-              <div class="caption pt-2">{{lastFullyInsurance.car}}</div>
+              <p>Typ: {{insuranceTypeToString(lastFullyInsurance.type)}}</p>
               <span v-if="lastFullyInsurance.documents.length > 0" class="caption">Dokumenty:</span>
               <div class="caption primary--text text--accent-4">
                       <span v-for="doc in lastFullyInsurance.documents">
-                        <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
+                        <div @click="downloadFile(doc.fileName, doc.documentId)"
+                             class="document-link">{{doc.fileName}}</div>
                       </span>
               </div>
             </div>
@@ -49,68 +49,135 @@
           </v-card-text>
         </v-card>
       </v-flex>
-
       <v-flex xs12 sm6 class="pa-2">
         <v-card>
           <v-card-title primary-title class="pb-0">
             <span class="title">Dodaj nowe ubezpieczenie</span>
           </v-card-title>
-          <!--<v-card-text>-->
-            <!--<v-menu-->
-              <!--ref="menu"-->
-              <!--:close-on-content-click="false"-->
-              <!--v-model="menu"-->
-              <!--:nudge-right="40"-->
-              <!--:return-value.sync="formData.examinationDate"-->
-              <!--lazy-->
-              <!--transition="scale-transition"-->
-              <!--offset-y-->
-              <!--full-width-->
-              <!--max-width="290px"-->
-              <!--min-width="290px"-->
-            <!--&gt;-->
-              <!--<v-text-field-->
-                <!--:error-messages="errors.collect('examinationDate')"-->
-                <!--data-vv-name="examinationDate"-->
-                <!--data-vv-as="data przeglądu"-->
-                <!--v-validate="'required'"-->
-                <!--slot="activator"-->
-                <!--:value="formData.examinationDate"-->
-                <!--label="Data wykonania przeglądu"-->
-                <!--prepend-icon="event"-->
-                <!--readonly-->
-              <!--&gt;</v-text-field>-->
-              <!--<v-date-picker-->
-                <!--@input="formData.examinationDate = $event"-->
-                <!--v-model="formData.examinationDate">-->
-                <!--<v-spacer></v-spacer>-->
-                <!--<v-btn flat color="primary" @click="menu = false">Cancel</v-btn>-->
-                <!--<v-btn flat color="primary" @click="datePicked">OK</v-btn>-->
-              <!--</v-date-picker>-->
-            <!--</v-menu>-->
-            <!--<v-textarea-->
-              <!--prepend-icon="event_note"-->
-              <!--v-model="formData.description"-->
-              <!--rows="2"-->
-              <!--auto-grow-->
-              <!--label="Opis">-->
-            <!--</v-textarea>-->
-            <!--<div v-for="file in selectedFiles" class="caption">-->
-              <!--{{file.name}}-->
-            <!--</div>-->
-            <!--<v-layout class="pt-2">-->
-              <!--<v-btn @click.native="$refs.multipartfiles.click()">-->
-                <!--Pliki-->
-                <!--<v-icon right dark>cloud_upload</v-icon>-->
-                <!--<input style="display: none;" @change="showFileName" ref="multipartfiles" type="file" name="multipartfiles" accept="image/*,application/pdf" multiple/>-->
-              <!--</v-btn>-->
-              <!--<v-spacer/>-->
-              <!--<v-btn color="primary" type="button" @click="validateForm">Dodaj</v-btn>-->
-            <!--</v-layout>-->
-          <!--</v-card-text>-->
+          <v-card-text>
+            <v-layout wrap>
+              <v-flex xs6>
+                <v-menu
+                  ref="menu"
+                  :close-on-content-click="false"
+                  v-model="menu"
+                  :nudge-right="40"
+                  :return-value.sync="formData.fromDate"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    :error-messages="errors.collect('fromDate')"
+                    data-vv-name="fromDate"
+                    data-vv-as="data od"
+                    v-validate="'required'"
+                    slot="activator"
+                    :value="formData.fromDate"
+                    label="Data ważności od"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker
+                    @input="formData.fromDate = $event"
+                    v-model="formData.fromDate">
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                    <v-btn flat color="primary" @click="fromDatePicked">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                <v-menu
+                  ref="menu2"
+                  :close-on-content-click="false"
+                  v-model="menu2"
+                  :nudge-right="40"
+                  :return-value.sync="formData.toDate"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    :error-messages="errors.collect('toDate')"
+                    data-vv-name="toDate"
+                    data-vv-as="data do"
+                    v-validate="'required'"
+                    slot="activator"
+                    :value="formData.toDate"
+                    label="Data ważności do"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker
+                    @input="formData.toDate = $event"
+                    v-model="formData.toDate">
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="menu2 = false">Cancel</v-btn>
+                    <v-btn flat color="primary" @click="toDatePicked">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                <v-select
+                  v-validate="'required'"
+                  data-vv-name="type"
+                  data-vv-as="typ"
+                  :error-messages="errors.collect('type')"
+                  v-model="formData.type"
+                  :items="insuranceTypes"
+                  item-text="text"
+                  item-value="value"
+                  prepend-icon="insert_drive_file"
+                  label="Typ ubezpieczenia">
+                </v-select>
+              </v-flex>
+              <v-flex xs6>
+
+                <v-text-field
+                  v-validate="'required'"
+                  data-vv-name="cost"
+                  data-vv-as="koszt"
+                  :error-messages="errors.collect('cost')"
+                  v-model="formData.cost"
+                  prepend-icon="attach_money"
+                  label="Koszt [zł]">
+                </v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-textarea
+                  prepend-icon="event_note"
+                  v-model="formData.description"
+                  rows="2"
+                  auto-grow
+                  label="Opis">
+                </v-textarea>
+              </v-flex>
+            </v-layout>
+            <div v-for="file in selectedFiles" class="caption">
+              {{file.name}}
+            </div>
+            <v-layout class="pt-2">
+              <v-btn @click.native="$refs.multipartfiles.click()">
+                Pliki
+                <v-icon right dark>cloud_upload</v-icon>
+                <input style="display: none;" @change="showFileName" ref="multipartfiles" type="file"
+                       name="multipartfiles" accept="image/*,application/pdf" multiple/>
+              </v-btn>
+              <v-spacer/>
+              <v-btn color="primary" type="button" @click="validateForm">Dodaj</v-btn>
+            </v-layout>
+
+
+          </v-card-text>
         </v-card>
       </v-flex>
-
       <v-flex xs12 sm6 class="pa-2">
         <v-card>
           <v-card-title primary-title class="pb-0">
@@ -131,12 +198,13 @@
                     <div>Opis: {{insurance.description}}</div>
                     <div>Cena: {{insurance.cost}} zł</div>
                     <div>Typ: {{insuranceTypeToString(insurance.type)}}</div>
-                    <div class="caption pt-2">{{insurance.car}}</div>
-                    <div class="caption grey--text text--lighten-1">
+                    <span v-if="insurance.documents.length > 0" class="caption">Dokumenty:</span>
+                    <div class="caption primary--text text--accent-4">
                       <span v-for="doc in insurance.documents">
-                        <div @click="downloadFile(doc.fileName, doc.documentId)">{{doc.fileName}}</div>
+                        <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
                       </span>
                     </div>
+                    <div class="caption pt-2">{{insurance.car}}</div>
                   </v-card-text>
                 </v-card>
               </v-expansion-panel-content>
@@ -183,6 +251,7 @@ export default {
       },
       selectedFiles: [],
       menu: false,
+      menu2: false,
       formData: {
         fromDate: null,
         toDate: null,
@@ -194,6 +263,15 @@ export default {
         totalPages: 0,
       },
       actualDisplayedPage: 1,
+      insuranceTypes: [
+        {
+          value: 'THIRD_PARTY',
+          text: 'OC',
+        }, {
+          value: 'FULLY',
+          text: 'AC',
+        },
+      ],
     };
   },
   watch: {
@@ -218,13 +296,17 @@ export default {
     fromDatePicked() {
       this.$refs.menu.save(this.formData.fromDate);
       if (this.formData.fromDate !== null) {
-        // this.$validator.reset();
+        const field = this.$validator.fields.find({ name: 'fromDate' });
+        field.reset();
+        this.$validator.errors.remove(field.name);
       }
     },
     toDatePicked() {
-      this.$refs.menu.save(this.formData.toDate);
+      this.$refs.menu2.save(this.formData.toDate);
       if (this.formData.toDate !== null) {
-        // this.$validator.reset();
+        const field = this.$validator.fields.find({ name: 'toDate' });
+        field.reset();
+        this.$validator.errors.remove(field.name);
       }
     },
     validateForm() {
@@ -280,10 +362,11 @@ export default {
             description: null,
           };
           this.selectedFiles = [];
+          this.$validator.reset();
         })
         .catch((error) => {
           const code = error.response.status;
-          let message = 'Pliki posiadają złe rozszerzenie.';
+          let message = 'Podane dane są błędne.';
           if (code >= 500) {
             message = 'Wystąpił błąd serwera, skontaktuj się z administratorem.';
           }
@@ -296,7 +379,7 @@ export default {
         });
     },
     getData(carId, fetchedPage) {
-      this.$http.get(`${endpoints.INSURANCES}?carId=${carId}&size=8&page=${fetchedPage}&sort=fromDate,toDate,id,desc`)
+      this.$http.get(`${endpoints.INSURANCES}?carId=${carId}&size=5&page=${fetchedPage}&sort=fromDate,toDate,id,desc`)
         .then((response) => {
           this.insurancePage = response.data;
         })
@@ -359,8 +442,8 @@ export default {
 </script>
 
 <style scoped>
-.document-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
+  .document-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 </style>

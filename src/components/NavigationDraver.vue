@@ -73,14 +73,14 @@
           <!--<v-list-tile-content><v-list-tile-title>Kalendarz</v-list-tile-title></v-list-tile-content>-->
         <!--</v-list-tile>-->
 
-        <v-list-tile value="true" @click="navigationItemChanged('Przegląd rejestracyjny')" to="/examination">
-          <v-list-tile-action><v-icon>settings_input_hdmi</v-icon></v-list-tile-action>
-          <v-list-tile-content><v-list-tile-title>Przegląd rejestracyjny</v-list-tile-title></v-list-tile-content>
-        </v-list-tile>
-
         <v-list-tile value="true" @click="navigationItemChanged('Ubezpieczenie')" to="/insurance">
           <v-list-tile-action><v-icon>verified_user</v-icon></v-list-tile-action>
           <v-list-tile-content><v-list-tile-title>Ubezpieczenie</v-list-tile-title></v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile value="true" @click="navigationItemChanged('Przegląd rejestracyjny')" to="/examination">
+          <v-list-tile-action><v-icon>settings_input_hdmi</v-icon></v-list-tile-action>
+          <v-list-tile-content><v-list-tile-title>Przegląd rejestracyjny</v-list-tile-title></v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile value="true" @click="navigationItemChanged('Powiadomienia')" to="/notifications">
