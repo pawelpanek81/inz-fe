@@ -1,31 +1,32 @@
 <template>
   <v-container fluid class="pa-2">
     <v-layout wrap>
-      <v-flex xs12 class="pa-2">
-        <v-card>
-          <v-card-title primary-title class="pb-0">
-            <span class="title">Ostatni przegląd</span>
-          </v-card-title>
-          <v-card-text>
-            <div>Data wykonania:
-              <span class="font-weight-bold">{{lastExamination.examinationDate}}</span>
-            </div>
-            <p>Opis: {{lastExamination.description === null ? 'brak' : lastExamination.description}}</p>
-            <span v-if="lastExamination.documents.length > 0" class="caption">Dokumenty:</span>
-            <div class="caption primary--text text--accent-4">
+      <v-flex xs12 sm6>
+        <v-flex xs12 class="pa-2">
+          <v-card>
+            <v-card-title primary-title class="pb-0">
+              <span class="title">Ostatni przegląd</span>
+            </v-card-title>
+            <v-card-text>
+              <div>Data wykonania:
+                <span class="font-weight-bold">{{lastExamination.examinationDate}}</span>
+              </div>
+              <p>Opis: {{lastExamination.description === null ? 'brak' : lastExamination.description}}</p>
+              <span v-if="lastExamination.documents.length > 0" class="caption">Dokumenty:</span>
+              <div class="caption primary--text text--accent-4">
                       <span v-for="doc in lastExamination.documents">
                         <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
                       </span>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 sm6 class="pa-2">
-        <v-card>
-          <v-card-title primary-title class="pb-0">
-            <span class="title">Dodaj nowy przegląd</span>
-          </v-card-title>
-          <v-card-text>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 class="pa-2">
+          <v-card>
+            <v-card-title primary-title class="pb-0">
+              <span class="title">Dodaj nowy przegląd</span>
+            </v-card-title>
+            <v-card-text>
               <v-menu
                 ref="menu"
                 :close-on-content-click="false"
@@ -50,12 +51,12 @@
                   prepend-icon="event"
                   readonly
                 ></v-text-field>
-              <v-date-picker
-                @input="formData.examinationDate = $event"
-                v-model="formData.examinationDate">
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn flat color="primary" @click="datePicked">OK</v-btn>
+                <v-date-picker
+                  @input="formData.examinationDate = $event"
+                  v-model="formData.examinationDate">
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                  <v-btn flat color="primary" @click="datePicked">OK</v-btn>
                 </v-date-picker>
               </v-menu>
               <v-textarea
@@ -77,48 +78,51 @@
                 <v-spacer/>
                 <v-btn color="primary" type="button" @click="validateForm">Dodaj</v-btn>
               </v-layout>
-          </v-card-text>
-        </v-card>
+            </v-card-text>
+          </v-card>
+        </v-flex>
       </v-flex>
-      <v-flex xs12 sm6 class="pa-2">
-        <v-card>
-          <v-card-title primary-title class="pb-0">
-            <span class="title">Historia przeglądów</span>
-          </v-card-title>
-          <v-card-text>
-            <v-expansion-panel>
-              <v-expansion-panel-content
-                v-for="(examination, i) in examinationPage.content"
-                :key="i">
-                <div slot="header">{{examination.examinationDate}}</div>
-                <v-card>
-                  <v-card-text class="grey lighten-3">
-                    <p>Opis: {{examination.description === null? 'brak' : examination.description}}</p>
+      <v-flex xs12 sm6>
+        <v-flex xs12 class="pa-2">
+          <v-card>
+            <v-card-title primary-title class="pb-0">
+              <span class="title">Historia przeglądów</span>
+            </v-card-title>
+            <v-card-text>
+              <v-expansion-panel>
+                <v-expansion-panel-content
+                  v-for="(examination, i) in examinationPage.content"
+                  :key="i">
+                  <div slot="header">{{examination.examinationDate}}</div>
+                  <v-card>
+                    <v-card-text class="grey lighten-3">
+                      <p>Opis: {{examination.description === null? 'brak' : examination.description}}</p>
 
-                    <span v-if="examination.documents.length > 0" class="caption">Dokumenty:</span>
-                    <div class="caption primary--text text--accent-1">
+                      <span v-if="examination.documents.length > 0" class="caption">Dokumenty:</span>
+                      <div class="caption primary--text text--accent-1">
                       <span v-for="doc in examination.documents">
                         <div @click="downloadFile(doc.fileName, doc.documentId)" class="document-link">{{doc.fileName}}</div>
                       </span>
-                    </div>
-                    <div class="caption pt-2">Auto: {{examination.car}}</div>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-container class="pa-0 py-2">
-              <v-layout row wrap align-center>
-                <v-flex class="text-xs-center">
-                  <v-pagination
-                    class="pa-2"
-                    v-model="actualDisplayedPage"
-                    :length="examinationPage.totalPages"
-                  ></v-pagination>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-        </v-card>
+                      </div>
+                      <div class="caption pt-2">Auto: {{examination.car}}</div>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-container class="pa-0 py-2">
+                <v-layout row wrap align-center>
+                  <v-flex class="text-xs-center">
+                    <v-pagination
+                      class="pa-2"
+                      v-model="actualDisplayedPage"
+                      :length="examinationPage.totalPages"
+                    ></v-pagination>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-flex>
       </v-flex>
     </v-layout>
   </v-container>
