@@ -171,7 +171,7 @@ export default {
   methods: {
     generateReport() {
       this.$http({
-        url: `${endpoints.REPORTS}/${this.selectedCar.id}`,
+        url: `${endpoints.REPORTS}?carId=${this.selectedCar.id}`,
         method: 'GET',
         responseType: 'blob',
       }).then((response) => {
