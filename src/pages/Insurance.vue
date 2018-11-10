@@ -171,7 +171,7 @@
                        name="multipartfiles" accept="image/*,application/pdf" multiple/>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" type="button" @click="validateForm">Dodaj</v-btn>
+              <v-btn color="primary" type="button" @click="validateForm" :disabled="this.selectedCar === null">Dodaj</v-btn>
             </v-layout>
 
 

@@ -14,4 +14,6 @@ export default {
   LAST_THIRD_PARTY_INSURANCE: '/insurance/insurances/last-third-party-insurance',
   LAST_FULLY_INSURANCE: '/insurance/insurances/last-fully-insurance',
   INSURANCE_DOCUMENTS: '/insurance/documents',
+  SERVICES: '/car/services',
+  REPORTS: '/car/reports',
 };
