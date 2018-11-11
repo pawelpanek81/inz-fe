@@ -289,15 +289,15 @@ export default {
   },
   methods: {
     allowedToDates(val) {
-      return !(this.formData.fromDate !== null &&
-        new Date(val) <= new Date(this.formData.fromDate));
+      return !(this.formData.fromDate !== null
+        && new Date(val) <= new Date(this.formData.fromDate));
     },
     allowedFromDates(val) {
       return !(this.formData.toDate !== null && new Date(val) >= new Date(this.formData.toDate));
     },
     insuranceTypeToString(insuranceType) {
       if (insuranceType === 'THIRD_PARTY') return 'OC';
-      else if (insuranceType === 'FULLY') return 'AC';
+      if (insuranceType === 'FULLY') return 'AC';
       return '';
     },
     showFileName(event) {
