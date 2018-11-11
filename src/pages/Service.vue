@@ -4,7 +4,7 @@
       <v-flex class="pa-2">
         <v-card>
           <v-btn class="mt-4 ml-4" outline color="primary" @click="generateReport()"
-                 :disabled="this.selectedCar === null">
+                 :disabled="this.selectedCar === null" :loading="loadingReport">
             Generuj raport z historii
           </v-btn>
           <v-card-title primary-title class="pb-0">
@@ -39,7 +39,8 @@
                   ></v-text-field>
                   <v-date-picker
                     @input="formData.serviceDate = $event"
-                    v-model="formData.serviceDate">
+                    v-model="formData.serviceDate"
+                    :allowed-dates="allowedDates">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
                     <v-btn flat color="primary" @click="datePicked">OK</v-btn>
@@ -118,7 +119,9 @@
                        name="multipartfiles" accept="image/*,application/pdf" multiple/>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" type="button" @click="validateForm" :disabled="this.selectedCar === null">
+              <v-btn color="primary" type="button" @click="validateForm"
+                     :disabled="this.selectedCar === null"
+                     :loading="loadingAddService">
                 Dodaj
               </v-btn>
             </v-layout>
@@ -137,6 +140,8 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
+      loadingReport: false,
+      loadingAddService: false,
       menu: false,
       selectedFiles: [],
       serviceTypes: [
@@ -170,6 +175,7 @@ export default {
   },
   methods: {
     generateReport() {
+      this.loadingReport = true;
       this.$http({
         url: `${endpoints.REPORTS}?carId=${this.selectedCar.id}`,
         method: 'GET',
@@ -181,6 +187,7 @@ export default {
         link.setAttribute('download', 'raport.pdf');
         document.body.appendChild(link);
         link.click();
+        this.loadingReport = false;
       });
     },
     showFileName(event) {
@@ -212,6 +219,7 @@ export default {
         });
     },
     sendData() {
+      this.loadingAddService = true;
       let i;
       const multipartfiles = this.$refs.multipartfiles.files;
       const formData = new FormData();
@@ -227,7 +235,6 @@ export default {
       for (i = 0; i < len; i++) {
         formData.append('multipartfiles', multipartfiles[i]);
       }
-
       this.$http.post(endpoints.SERVICES, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(() => {
           swal({
@@ -259,6 +266,10 @@ export default {
             timer: 5000,
           });
         });
+      this.loadingAddService = false;
+    },
+    allowedDates(val) {
+      return new Date(val) < new Date();
     },
   },
   mounted() {

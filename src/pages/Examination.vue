@@ -53,7 +53,8 @@
                 ></v-text-field>
                 <v-date-picker
                   @input="formData.examinationDate = $event"
-                  v-model="formData.examinationDate">
+                  v-model="formData.examinationDate"
+                  :allowedDates="allowedDates">
                   <v-spacer></v-spacer>
                   <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
                   <v-btn flat color="primary" @click="datePicked">OK</v-btn>
@@ -76,7 +77,10 @@
                   <input style="display: none;" @change="showFileName" ref="multipartfiles" type="file" name="multipartfiles" accept="image/*,application/pdf" multiple/>
                 </v-btn>
                 <v-spacer/>
-                <v-btn color="primary" type="button" @click="validateForm" :disabled="this.selectedCar === null">Dodaj</v-btn>
+                <v-btn color="primary" type="button" @click="validateForm"
+                       :disabled="this.selectedCar === null"
+                       :loading="addExaminationLoading"
+                >Dodaj</v-btn>
               </v-layout>
             </v-card-text>
           </v-card>
@@ -136,6 +140,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
+      addExaminationLoading: false,
       menu: false,
       formData: {
         examinationDate: null,
@@ -191,6 +196,7 @@ export default {
         });
     },
     sendData() {
+      this.addExaminationLoading = true;
       let i;
       const multipartfiles = this.$refs.multipartfiles.files;
       const formData = new FormData();
@@ -233,6 +239,7 @@ export default {
             timer: 5000,
           });
         });
+      this.addExaminationLoading = false;
     },
     getData(carId, fetchedPage) {
       this.$http.get(`${endpoints.EXAMINATIONS}?carId=${carId}&size=8&page=${fetchedPage}&sort=examinationDate,id,desc`)
@@ -272,6 +279,9 @@ export default {
         .then((response) => {
           this.lastExamination = response.data;
         });
+    },
+    allowedDates(val) {
+      return new Date(val) <= new Date();
     },
   },
   mounted() {

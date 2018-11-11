@@ -116,7 +116,10 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex class="text-xs-right">
-                    <v-btn @click="validateForm" color="primary"><v-icon left >add_circle</v-icon>Dodaj punkt</v-btn>
+                    <v-btn @click="validateForm" color="primary" :loading="addPointLoading">
+                      <v-icon left >add_circle</v-icon>
+                      Dodaj punkt
+                    </v-btn>
                   </v-flex>
                 </v-layout>
               </v-form>
@@ -155,6 +158,7 @@ import swal from 'sweetalert2';
 export default {
   data() {
     return {
+      addPointLoading: false,
       pointTypes: [],
       mapConf: {
         zoom: 6,
@@ -215,6 +219,7 @@ export default {
         });
     },
     addPoint(dto) {
+      this.addPointLoading = true;
       this.$http.post(`${endpoints.MAP}`, dto)
         .then(() => {
           swal({
@@ -245,6 +250,7 @@ export default {
             timer: 5000,
           });
         });
+      this.addPointLoading = false;
     },
   },
   mounted() {

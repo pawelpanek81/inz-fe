@@ -83,7 +83,8 @@
                   ></v-text-field>
                   <v-date-picker
                     @input="formData.fromDate = $event"
-                    v-model="formData.fromDate">
+                    v-model="formData.fromDate"
+                    :allowedDates="allowedFromDates">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
                     <v-btn flat color="primary" @click="fromDatePicked">OK</v-btn>
@@ -117,7 +118,8 @@
                   ></v-text-field>
                   <v-date-picker
                     @input="formData.toDate = $event"
-                    v-model="formData.toDate">
+                    v-model="formData.toDate"
+                    :allowedDates="allowedToDates">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu2 = false">Cancel</v-btn>
                     <v-btn flat color="primary" @click="toDatePicked">OK</v-btn>
@@ -171,10 +173,10 @@
                        name="multipartfiles" accept="image/*,application/pdf" multiple/>
               </v-btn>
               <v-spacer/>
-              <v-btn color="primary" type="button" @click="validateForm" :disabled="this.selectedCar === null">Dodaj</v-btn>
+              <v-btn color="primary" type="button" @click="validateForm"
+                     :disabled="this.selectedCar === null"
+                     :loading="addInsuranceLoading">Dodaj</v-btn>
             </v-layout>
-
-
           </v-card-text>
         </v-card>
       </v-flex>
@@ -235,6 +237,7 @@ import endpoints from '@/api/endpoints';
 export default {
   data() {
     return {
+      addInsuranceLoading: false,
       lastThirdPartyInsurance: {
         description: '',
         fromDate: 'Brak ostatniego ubezpieczenia OC',
@@ -285,6 +288,13 @@ export default {
     ]),
   },
   methods: {
+    allowedToDates(val) {
+      return !(this.formData.fromDate !== null &&
+        new Date(val) <= new Date(this.formData.fromDate));
+    },
+    allowedFromDates(val) {
+      return !(this.formData.toDate !== null && new Date(val) >= new Date(this.formData.toDate));
+    },
     insuranceTypeToString(insuranceType) {
       if (insuranceType === 'THIRD_PARTY') return 'OC';
       else if (insuranceType === 'FULLY') return 'AC';
@@ -327,6 +337,7 @@ export default {
         });
     },
     sendData() {
+      this.addInsuranceLoading = true;
       let i;
       const multipartfiles = this.$refs.multipartfiles.files;
       const formData = new FormData();
@@ -377,6 +388,7 @@ export default {
             timer: 5000,
           });
         });
+      this.addInsuranceLoading = false;
     },
     getData(carId, fetchedPage) {
       this.$http.get(`${endpoints.INSURANCES}?carId=${carId}&size=5&page=${fetchedPage}&sort=fromDate,toDate,id,desc`)
