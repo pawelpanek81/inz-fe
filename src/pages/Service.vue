@@ -116,7 +116,7 @@
                 Pliki
                 <v-icon right dark>cloud_upload</v-icon>
                 <input style="display: none;" @change="showFileName" ref="multipartfiles" type="file"
-                       name="multipartfiles" accept="image/*,application/pdf" multiple/>
+                       name="multipartfiles" accept="image/*" multiple/>
               </v-btn>
               <v-spacer/>
               <v-btn color="primary" type="button" @click="validateForm"
