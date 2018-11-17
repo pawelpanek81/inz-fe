@@ -14,10 +14,10 @@
           <div>tel.: {{selectedPoint.mapPoint.phone}}</div>
           <div class="mt-2">
             <div>
-              <span class="font-weight-bold">Średnia ocen: </span><span>{{selectedPoint.ratingCount}}</span>
+              <span class="font-weight-bold">Średnia ocen: </span><span>{{selectedPoint.averageRating}}</span>
             </div>
             <div>
-              <span class="font-weight-bold">Opinie: </span><span>{{selectedPoint.averageRating}}</span>
+              <span class="font-weight-bold">Opinie: </span><span>{{selectedPoint.ratingCount}}</span>
             </div>
           </div>
           <v-btn class="pa-0 ma-0 mt-2" flat color="primary" @click="addNewRating">twoja opinia</v-btn>
