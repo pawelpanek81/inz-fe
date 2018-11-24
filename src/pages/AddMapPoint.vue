@@ -98,7 +98,7 @@
                       data-vv-as="szerokość geograficzna"
                       :error-messages="errors.collect('latitude')"
                       v-model="addPointDTO.latitude"
-                      label="Szerokośc geograficzna"
+                      label="Szerokość geograficzna"
                       required
                       prepend-icon="my_location"
                     ></v-text-field>
