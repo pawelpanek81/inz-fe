@@ -91,8 +91,6 @@ export default {
         });
     },
     forgotPassword() {
-      // eslint-disable-next-line
-      alert('trudno ¯\\_(ツ)_/¯');
     },
     redirectIfUserLoggedIn() {
       if (this.isUserLoggedIn) {
